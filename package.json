@@ -52,7 +52,7 @@
     "dev": "tsc --watch",
     "docs:dev": "vite src/docs --port 5055",
     "docs:build": "vite build src/docs",
-    "docs:preview": "vite preview src/docs"
+    "docs:preview": "vite preview src/docs --host"
   },
   "keywords": [
     "react",
