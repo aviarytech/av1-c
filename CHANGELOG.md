@@ -1,3 +1,15 @@
+# [1.5.0](https://github.com/aviarytech/av1-c/compare/v1.4.0...v1.5.0) (2025-01-30)
+
+
+### Bug Fixes
+
+* **build:** fix lock ([2d09fc8](https://github.com/aviarytech/av1-c/commit/2d09fc8fefc333f9bca20b9902292eec21cb932c))
+
+
+### Features
+
+* **c:** schema editor ([70d0c1a](https://github.com/aviarytech/av1-c/commit/70d0c1ac580a95072349a0c9f862cdfd3a5dc202))
+
 # [1.4.0](https://github.com/aviarytech/av1-c/compare/v1.3.0...v1.4.0) (2025-01-30)
 
 
