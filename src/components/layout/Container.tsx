@@ -11,7 +11,7 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
       <div
         ref={ref}
         className={cn(
-          "mx-auto px-4 sm:px-6 lg:px-8",
+          "mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900",
           {
             "max-w-screen-sm": maxWidth === "sm",
             "max-w-screen-md": maxWidth === "md",

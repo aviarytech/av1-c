@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Card } from "../../components/card/Card";
 import { Search } from "./Search";
+import { Accordion } from "../../components/accordion/Accordion";
+import { cn } from "../../utils/cn";
 
 interface NavigationProps {
   currentPage: string;
@@ -39,6 +41,8 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
         { id: "dropdown", label: "Dropdown" },
         { id: "table", label: "Table" },
         { id: "tooltip", label: "Tooltip" },
+        { id: "accordion", label: "Accordion" },
+        { id: "code-editor", label: "Code Editor" },
       ],
     },
     {
@@ -76,40 +80,44 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
     );
   };
 
+  const renderSection = (section: typeof sections[0]) => {
+    const filteredItems = filterItems(section.items);
+    if (filteredItems.length === 0) return null;
+
+    return (
+      <ul className="space-y-1 py-1">
+        {filteredItems.map((item) => (
+          <li key={item.id}>
+            <button
+              onClick={() => onNavigate(item.id)}
+              className={cn(
+                "text-sm w-full text-left px-3 py-1.5 rounded-md transition-all duration-200",
+                currentPage === item.id
+                  ? "bg-blue-500/10 text-blue-400 font-medium"
+                  : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+              )}
+            >
+              {item.label}
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const accordionItems = sections
+    .map(section => ({
+      title: section.title,
+      content: renderSection(section),
+      defaultOpen: false
+    }))
+    .filter(item => item.content !== null);
+
   return (
-    <Card className="sticky top-8">
-      <Card.Content className="p-4 space-y-4">
+    <Card className="sticky top-8 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl">
+      <Card.Content className="p-4 space-y-6">
         <Search onSearch={setSearchQuery} />
-        <nav className="space-y-8">
-          {sections.map((section) => {
-            const filteredItems = filterItems(section.items);
-            if (filteredItems.length === 0) return null;
-            
-            return (
-              <div key={section.title}>
-                <h3 className="font-semibold text-sm text-gray-400 uppercase tracking-wider">
-                  {section.title}
-                </h3>
-                <ul className="mt-3 space-y-1">
-                  {filteredItems.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        onClick={() => onNavigate(item.id)}
-                        className={`text-sm w-full text-left px-2 py-1.5 rounded transition-colors ${
-                          currentPage === item.id
-                            ? "bg-gray-800 text-gray-100"
-                            : "text-gray-400 hover:text-gray-100"
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </nav>
+        <Accordion items={accordionItems} />
       </Card.Content>
     </Card>
   );

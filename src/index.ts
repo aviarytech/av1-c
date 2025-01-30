@@ -72,4 +72,7 @@ export { Table } from './components/table/Table';
 export { Title } from './components/typography/Title';
 
 // Documentation
-export { App as DocsApp } from './docs/App'; 
+export { App as DocsApp } from './docs/App';
+
+// Accordion
+export { Accordion } from './components/accordion/Accordion'; 

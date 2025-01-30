@@ -2,6 +2,8 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
+import { javascript } from '@codemirror/lang-javascript';
+import { json } from '@codemirror/lang-json';
 
 export interface CodeEditorProps {
   value: string;
@@ -16,16 +18,20 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   value,
   onChange,
   language = "json",
-  height = "300px",
+  height = "auto",
   className,
   readOnly = false,
 }) => {
   const getLanguageExtension = () => {
-    // You'll need to import the appropriate language extensions
-    // based on what languages you want to support
     switch (language) {
+      case "javascript":
+        return [javascript()];
+      case "typescript":
+        return [javascript({ typescript: true })];
+      case "json":
+        return [json()];
       case "jsonata":
-        return [];
+      case "bash":
       default:
         return [];
     }
@@ -46,6 +52,20 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           dropCursor: true,
           allowMultipleSelections: true,
           indentOnInput: true,
+          highlightActiveLineGutter: true,
+          highlightSpecialChars: true,
+          history: true,
+          bracketMatching: true,
+          autocompletion: true,
+          rectangularSelection: true,
+          crosshairCursor: true,
+          highlightActiveLine: true,
+          highlightSelectionMatches: true,
+          closeBrackets: true,
+          searchKeymap: true,
+          foldKeymap: true,
+          completionKeymap: true,
+          lintKeymap: true,
         }}
       />
     </div>

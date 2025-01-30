@@ -13,10 +13,10 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(
       <header
         ref={ref}
         className={cn(
-          "w-full bg-gray-900 border-b border-gray-800",
+          "w-full bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800",
           position === "fixed" && "fixed top-0 z-50",
           position === "sticky" && "sticky top-0 z-50",
-          bordered && "border-b border-gray-800",
+          bordered && "border-b border-gray-200 dark:border-gray-800",
           className
         )}
         style={{ 

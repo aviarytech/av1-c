@@ -29,6 +29,8 @@ import { Input } from "../components/input/Input";
 import { FormFieldPage } from "./pages/components/FormFieldPage";
 import { LabelPage } from "./pages/components/LabelPage";
 import { CodePage } from "./pages/components/CodePage";
+import { AccordionPage } from "./pages/components/AccordionPage";
+import { CodeEditorPage } from "./pages/components/CodeEditorPage";
 
 export const App = () => {
   const [currentPage, setCurrentPage] = React.useState("getting-started");
@@ -77,16 +79,20 @@ export const App = () => {
         return <LabelPage />;
       case "code":
         return <CodePage />;
+      case "accordion":
+        return <AccordionPage />;
+      case "code-editor":
+        return <CodeEditorPage />;
       default:
         return <GettingStartedPage />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <Header>
         <HeaderContent>
-          <Title level={3} className="text-blue-400">AV1 Components</Title>
+          <Title level={3} className="text-blue-600 dark:text-blue-400">AV1 Components</Title>
           <div className="ml-auto flex items-center gap-4">
             <ThemeToggle />
             <Button

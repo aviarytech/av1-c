@@ -43,7 +43,7 @@ const MyComponent = () => (
         <div className="w-full space-y-6">
           {sizes.map(({ size, width }) => (
             <div key={size} className="relative">
-              <Container maxWidth={size as "xl" | "sm" | "md" | "lg" | "2xl" | "full"} className="bg-gray-800 p-4">
+              <Container maxWidth={size as "xl" | "sm" | "md" | "lg" | "2xl" | "full"} className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{size}</span>
                   <span className="text-sm text-gray-400">max-width: {width}</span>

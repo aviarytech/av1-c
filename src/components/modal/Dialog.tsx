@@ -13,7 +13,7 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div 
-          className="fixed inset-0 bg-black/50" 
+          className="fixed inset-0" 
           onClick={onClose}
         />
         <div

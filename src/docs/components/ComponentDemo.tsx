@@ -24,21 +24,26 @@ export const ComponentDemo: React.FC<ComponentDemoProps> = ({
       {(title || description) && (
         <div>
           {title && <Title level={2}>{title}</Title>}
-          {description && <p className="mt-2 text-gray-400">{description}</p>}
+          {description && (
+            <p className="mt-2 text-gray-600 dark:text-gray-400">{description}</p>
+          )}
         </div>
       )}
 
       {!hidePreview && children && (
         <Card>
-          <Card.Content className="flex justify-center p-8 border-b border-gray-800">
+          <Card.Content className="flex justify-center p-8 border-b border-gray-200 dark:border-gray-800">
             {children}
           </Card.Content>
           <Card.Content className="relative">
-            <CopyButton value={code} />
+            <div className="absolute right-4 top-4 z-10">
+              <CopyButton value={code} />
+            </div>
             <CodeEditor
               value={code}
               language="typescript"
               readOnly
+              className="relative"
             />
           </Card.Content>
         </Card>
@@ -47,11 +52,14 @@ export const ComponentDemo: React.FC<ComponentDemoProps> = ({
       {hidePreview && (
         <Card>
           <Card.Content className="relative">
-            <CopyButton value={code} />
+            <div className="absolute right-4 top-4 z-10">
+              <CopyButton value={code} />
+            </div>
             <CodeEditor
               value={code}
               language="typescript"
               readOnly
+              className="relative"
             />
           </Card.Content>
         </Card>
