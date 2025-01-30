@@ -24,6 +24,12 @@ export const DropdownPage = () => {
       type: "string",
       description: "Additional CSS classes for the dropdown menu",
     },
+    {
+      name: "direction",
+      type: "'up' | 'down'",
+      defaultValue: "down",
+      description: "The direction the dropdown opens",
+    },
   ];
 
   const dropdownItemProps = [
@@ -80,7 +86,7 @@ const MyComponent = () => (
             title="Right Aligned"
             description="Dropdown menu aligned to the right"
             code={`<Dropdown
-  trigger={<Button>Long Buttn with a Right Menu</Button>}
+  trigger={<Button>Long Button with a Right Menu</Button>}
   align="right"
 >
   <DropdownItem>Option 1</DropdownItem>
@@ -89,7 +95,7 @@ const MyComponent = () => (
           >
             <div className="text-right">
               <Dropdown
-                trigger={<Button>Long Buttn with a Right Menu</Button>}
+                trigger={<Button>Long Button with a Right Menu</Button>}
                 align="right"
               >
                 <DropdownItem>Option 1</DropdownItem>
@@ -174,6 +180,28 @@ const MyComponent = () => (
                 </div>
               </DropdownItem>
             </Dropdown>
+          </ComponentDemo>
+
+          <ComponentDemo
+            title="Upward Direction"
+            description="Dropdown that opens upward"
+            code={`<Dropdown
+  trigger={<Button>Upward Menu</Button>}
+  direction="up"
+>
+  <DropdownItem>Option 1</DropdownItem>
+  <DropdownItem>Option 2</DropdownItem>
+</Dropdown>`}
+          >
+            <div className="mt-32">
+              <Dropdown
+                trigger={<Button>Upward Menu</Button>}
+                direction="up"
+              >
+                <DropdownItem>Option 1</DropdownItem>
+                <DropdownItem>Option 2</DropdownItem>
+              </Dropdown>
+            </div>
           </ComponentDemo>
         </div>
       </section>
