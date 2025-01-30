@@ -2,7 +2,7 @@
   "name": "av1-c",
   "version": "1.2.0",
   "description": "AV1 React Component Library",
-  "author": "Your Name",
+  "author": "@aviarytech",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -36,11 +36,18 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "typescript": "^4.9.5",
-    "tailwindcss": "^3.4.9"
+    "tailwindcss": "^3.4.9",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.12",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35"
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "docs:dev": "vite src/docs --port 5055",
+    "docs:build": "vite build src/docs",
+    "docs:preview": "vite preview src/docs"
   },
   "keywords": [
     "react",

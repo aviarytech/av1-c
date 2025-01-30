@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { X } from "lucide-react";
+import { ZINDEX } from "../../utils/z-index";
 
 export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "success" | "error" | "warning";
@@ -48,4 +49,12 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
     );
   }
 );
-Toast.displayName = "Toast"; 
+Toast.displayName = "Toast";
+
+export const ToastContainer = () => {
+  return (
+    <div className="fixed bottom-0 right-0 p-4 space-y-4" style={{ zIndex: ZINDEX.toast }}>
+      {/* Toast components will be rendered here */}
+    </div>
+  );
+}; 

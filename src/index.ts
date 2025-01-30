@@ -69,4 +69,7 @@ export { NavMenu, NavMenuItem } from './components/navigation/NavMenu';
 export { Table } from './components/table/Table';
 
 // Typography
-export { Title } from './components/typography/Title'; 
+export { Title } from './components/typography/Title';
+
+// Documentation
+export { App as DocsApp } from './docs/App'; 

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { ChevronDown } from "lucide-react";
+import { ZINDEX } from "../../utils/z-index";
 
 export interface NavMenuProps {
   trigger: React.ReactNode;
@@ -39,9 +40,10 @@ export const NavMenu: React.FC<NavMenuProps> = ({
       {isOpen && (
         <div
           className={cn(
-            "absolute top-full left-0 mt-2 w-48 rounded-lg border border-gray-700 bg-gray-800 p-1 shadow-lg",
+            "absolute right-0 mt-2 w-48 rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5",
             className
           )}
+          style={{ zIndex: ZINDEX.navMenu }}
         >
           {children}
         </div>

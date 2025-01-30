@@ -6,7 +6,7 @@ import { oneDark } from '@codemirror/theme-one-dark';
 export interface CodeEditorProps {
   value: string;
   onChange?: (value: string) => void;
-  language?: "json" | "javascript" | "typescript" | "jsonata";
+  language?: "json" | "javascript" | "typescript" | "jsonata" | "bash";
   height?: string;
   className?: string;
   readOnly?: boolean;

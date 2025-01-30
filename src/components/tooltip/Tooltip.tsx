@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { ZINDEX } from "../../utils/z-index";
 
 export interface TooltipProps {
   content: React.ReactNode;
@@ -38,6 +39,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             positionClasses[position],
             className
           )}
+          style={{ zIndex: ZINDEX.tooltip }}
         >
           {content}
         </div>

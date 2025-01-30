@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
 import { ChevronDown } from "lucide-react";
+import { ZINDEX } from "../../utils/z-index";
 
 export interface DropdownProps {
   trigger: React.ReactNode;
@@ -35,10 +36,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
       {isOpen && (
         <div
           className={cn(
-            "absolute z-50 mt-2 min-w-[8rem] rounded-lg border border-gray-700 bg-gray-800 p-1 shadow-lg",
-            align === "right" ? "right-0" : "left-0",
+            "absolute right-0 mt-2 rounded-md bg-gray-800 shadow-lg",
             className
           )}
+          style={{ zIndex: ZINDEX.dropdown }}
         >
           {children}
         </div>

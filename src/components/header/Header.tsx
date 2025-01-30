@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
+import { ZINDEX } from "../../utils/z-index";
 
 export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   position?: "fixed" | "sticky" | "static";
@@ -12,12 +13,16 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(
       <header
         ref={ref}
         className={cn(
-          "w-full bg-gray-800/95 backdrop-blur supports-[backdrop-filter]:bg-gray-800/75",
+          "w-full bg-gray-900 border-b border-gray-800",
           position === "fixed" && "fixed top-0 z-50",
           position === "sticky" && "sticky top-0 z-50",
-          bordered && "border-b border-gray-700",
+          bordered && "border-b border-gray-800",
           className
         )}
+        style={{ 
+          zIndex: ZINDEX.header,
+          position: position 
+        }}
         {...props}
       />
     );
