@@ -2,6 +2,7 @@ import React from 'react';
 import { Title } from '../../components/typography/Title';
 import { Card } from '../../components/card/Card';
 import { ComponentDemo } from '../components/ComponentDemo';
+import { CodeEditor } from '../../components/editor/CodeEditor';
 import { Code } from '../../components/typography/Code';
 
 export const GettingStartedPage = () => {
@@ -32,6 +33,33 @@ export const GettingStartedPage = () => {
             <Code>
               yarn add av1-c
             </Code>
+          </div>
+        </Card.Content>
+      </Card>
+
+      <Card>
+        <Card.Header>
+          <Title level={2}>Tailwind CSS Configuration</Title>
+        </Card.Header>
+        <Card.Content>
+          <div className="space-y-4">
+            <p className="text-gray-400">
+              AV1-C uses Tailwind CSS for styling. You'll need to configure your Tailwind CSS to scan the component classes in the package:
+            </p>
+            <CodeEditor
+              value={`// tailwind.config.js
+module.exports = {
+  content: [
+    // ... your other content paths
+    "./node_modules/av1-c/**/*.{js,ts,jsx,tsx}",
+  ],
+  // ... rest of your config
+}`}
+              language="javascript"
+            />
+            <p className="text-gray-400 mt-4">
+              This ensures that all the necessary styles for AV1-C components are included in your final CSS bundle.
+            </p>
           </div>
         </Card.Content>
       </Card>
