@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/aviarytech/av1-c/compare/v1.7.1...v1.8.0) (2025-01-30)
+
+
+### Features
+
+* **c:** dropdown using headless ui ([abca7b6](https://github.com/aviarytech/av1-c/commit/abca7b669311be616ccebba53d2457464c37a6f7))
+
 ## [1.7.1](https://github.com/aviarytech/av1-c/compare/v1.7.0...v1.7.1) (2025-01-30)
 
 
