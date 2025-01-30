@@ -28,12 +28,12 @@ export const CodePage = () => {
 
 const MyComponent = () => (
   <p>
-    Install using <Code>npm install @aviarytech/av1-c</Code>
+    Install using <Code>npm install av1-c</Code>
   </p>
 );`}
       >
         <p className="text-gray-400">
-          Install using <Code>npm install @aviarytech/av1-c</Code>
+          Install using <Code>npm install av1-c</Code>
         </p>
       </ComponentDemo>
 

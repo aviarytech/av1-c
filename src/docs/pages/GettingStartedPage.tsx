@@ -10,7 +10,7 @@ export const GettingStartedPage = () => {
       <div>
         <Title level={1}>Getting Started</Title>
         <p className="mt-2 text-gray-400">
-          Learn how to install and start using AV1 Components in your project.
+          Learn how to install and start using AV1-C in your project.
         </p>
       </div>
 
@@ -21,16 +21,16 @@ export const GettingStartedPage = () => {
         <Card.Content>
           <div className="space-y-4">
             <p className="text-gray-400">
-              Install AV1 Components using your preferred package manager:
+              Install AV1-C using your preferred package manager:
             </p>
             <Code>
-              npm install @aviarytech/av1-c
+              npm install av1-c
             </Code>
             <p className="text-gray-400 mt-4">
               Or using yarn:
             </p>
             <Code>
-              yarn add @aviarytech/av1-c
+              yarn add av1-c
             </Code>
           </div>
         </Card.Content>
@@ -46,7 +46,7 @@ export const GettingStartedPage = () => {
           </p>
 
           <ComponentDemo
-            code={`import { SchemaEditor } from '@aviarytech/av1-c';
+            code={`import { SchemaEditor } from 'av1-c';
 
 function App() {
   return (

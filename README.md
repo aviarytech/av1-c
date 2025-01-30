@@ -1,12 +1,16 @@
-# AV1 Components
+# AV1-C
 
-AV1 Components is a library of UI components for building AV1 products and related projects. It is built with Tailwind CSS and React.
+AV1-C is a library of React UI components for building AV1 products and related projects.
 
 ## Usage
 
 ```tsx
 import { CodeEditor } from "av1-c";
 ```
+
+...
+
+see the [docs](https://av1-c.up.railway.app/) for more information.
 
 ## Contributing
 

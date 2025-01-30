@@ -1,5 +1,9 @@
 import { serve, file } from "bun";
 import { join } from "path";
+import { build } from "bun";
+import postcss from "postcss";
+import tailwindcss from "@tailwindcss/postcss";
+import autoprefixer from "autoprefixer";
 
 const port = process.env.PORT || 5055;
 const isProd = process.argv.includes("--prod");
@@ -19,6 +23,18 @@ const MIME_TYPES: Record<string, string> = {
   ".ts": "text/typescript",
 };
 
+// Process CSS with PostCSS and Tailwind
+async function processCss(css: string) {
+  const result = await postcss([
+    tailwindcss,
+    autoprefixer,
+  ]).process(css, {
+    from: 'src/docs/index.css'
+  });
+  
+  return result.css;
+}
+
 const server = serve({
   port,
   async fetch(req) {
@@ -36,6 +52,61 @@ const server = serve({
       // Determine base directory based on environment
       const baseDir = isProd ? "dist/docs" : "src/docs";
       const filePath = join(process.cwd(), baseDir, pathname);
+
+      // Handle TypeScript compilation in development
+      if (!isProd && pathname.endsWith('.js')) {
+        const tsPath = filePath.replace('.js', '.tsx');
+        try {
+          const result = await build({
+            entrypoints: [tsPath],
+            outdir: './tmp',
+            target: 'browser',
+          });
+          
+          if (!result.success) {
+            throw new Error('Build failed');
+          }
+
+          return new Response(result.outputs[0], {
+            headers: {
+              "Content-Type": "text/javascript; charset=utf-8",
+              "Cache-Control": "no-cache",
+            },
+          });
+        } catch (err) {
+          // If .tsx doesn't exist, try .ts
+          const tsPath2 = filePath.replace('.js', '.ts');
+          const result = await build({
+            entrypoints: [tsPath2],
+            outdir: './tmp',
+            target: 'browser',
+          });
+
+          if (!result.success) {
+            throw new Error('Build failed');
+          }
+
+          return new Response(result.outputs[0], {
+            headers: {
+              "Content-Type": "text/javascript; charset=utf-8",
+              "Cache-Control": "no-cache",
+            },
+          });
+        }
+      }
+
+      // Handle CSS processing in development
+      if (!isProd && pathname.endsWith('.css')) {
+        const cssContent = await file(filePath).text();
+
+        const processedCss = await processCss(cssContent);
+        return new Response(processedCss, {
+          headers: {
+            "Content-Type": "text/css; charset=utf-8",
+            "Cache-Control": "no-cache",
+          },
+        });
+      }
 
       // Try to read the file
       const fileContent = await file(filePath).arrayBuffer();

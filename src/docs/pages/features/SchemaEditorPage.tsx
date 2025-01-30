@@ -37,7 +37,7 @@ export const SchemaEditorPage = () => {
               The Schema Editor is included in the main package:
             </p>
             <Code>
-              npm install @aviarytech/av1-c
+              npm install av1-c
             </Code>
           </div>
         </Card.Content>
@@ -49,7 +49,7 @@ export const SchemaEditorPage = () => {
         </Card.Header>
         <Card.Content>
           <ComponentDemo
-            code={`import { SchemaEditor } from '@aviarytech/av1-c';
+            code={`import { SchemaEditor } from 'av1-c';
 
 function MySchemaBuilder() {
   return (

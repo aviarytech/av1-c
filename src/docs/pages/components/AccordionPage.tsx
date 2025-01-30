@@ -46,8 +46,8 @@ const MyComponent = () => (
           <Accordion
             items={[
               {
-                title: "What is AV1 Components?",
-                content: "AV1 Components is a React component library built with TypeScript and Tailwind CSS.",
+                title: "What is AV1-C?",
+                content: "AV1-C is a React component library built with TypeScript and Tailwind CSS.",
                 defaultOpen: true
               },
               {
