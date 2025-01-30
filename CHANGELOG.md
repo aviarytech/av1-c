@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/aviarytech/av1-c/compare/v1.0.1...v1.1.0) (2025-01-30)
+
+
+### Features
+
+* **components:** add navmenu, header ([02eb9e0](https://github.com/aviarytech/av1-c/commit/02eb9e071d4c5ec6867dfd381689da6f93c52140))
+
 ## [1.0.1](https://github.com/aviarytech/av1-c/compare/v1.0.0...v1.0.1) (2025-01-30)
 
 
