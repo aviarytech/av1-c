@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/aviarytech/av1-c/compare/v1.2.0...v1.3.0) (2025-01-30)
+
+
+### Bug Fixes
+
+* **lock:** sync ([2ca5236](https://github.com/aviarytech/av1-c/commit/2ca5236fd95b48caf4f7958c4406fb7d05308f9f))
+
+
+### Features
+
+* **c:** too many new components to list ([47c7472](https://github.com/aviarytech/av1-c/commit/47c7472fc1898d7dd726884c9dd81af784706e8f))
+
 # [1.2.0](https://github.com/aviarytech/av1-c/compare/v1.1.0...v1.2.0) (2025-01-30)
 
 
