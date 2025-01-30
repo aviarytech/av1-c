@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/aviarytech/av1-c/compare/v1.8.0...v1.8.1) (2025-01-30)
+
+
+### Bug Fixes
+
+* **c:** dropdown tweaks ([83090f3](https://github.com/aviarytech/av1-c/commit/83090f30180fd9de310a585848d5d6f9f80f5460))
+
 # [1.8.0](https://github.com/aviarytech/av1-c/compare/v1.7.1...v1.8.0) (2025-01-30)
 
 
