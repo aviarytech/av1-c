@@ -21,6 +21,12 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
       ],
     },
     {
+      title: "Features",
+      items: [
+        { id: "schema-editor", label: "Schema Editor" },
+      ],
+    },
+    {
       title: "Layout",
       items: [
         { id: "container", label: "Container" },
@@ -45,7 +51,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
         { id: "table", label: "Table" },
         { id: "tooltip", label: "Tooltip" },
         { id: "accordion", label: "Accordion" },
-        { id: "code-editor", label: "Code Editor" },
+        { id: "code-editor", label: "Code Editor" }
       ],
     },
     {
@@ -76,11 +82,14 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
 
   const [searchQuery, setSearchQuery] = React.useState("");
   
-  const filterItems = (items: Array<{ id: string; label: string }>) => {
+  const filterItems = (items: Array<{ id: string; label: string } | { title: string; href: string }>) => {
     if (!searchQuery) return items;
-    return items.filter(item => 
-      item.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return items.filter(item => {
+      if ('label' in item) {
+        return item.label.toLowerCase().includes(searchQuery.toLowerCase());
+      }
+      return item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    });
   };
 
   const renderSection = (section: typeof sections[0]) => {
@@ -89,21 +98,26 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
 
     return (
       <ul className="space-y-1 py-1">
-        {filteredItems.map((item) => (
-          <li key={item.id}>
-            <button
-              onClick={() => onNavigate(item.id)}
-              className={cn(
-                "text-sm w-full text-left px-3 py-1.5 rounded-md transition-all duration-200",
-                currentPage === item.id
-                  ? "bg-blue-500/10 text-blue-400 font-medium"
-                  : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
-              )}
-            >
-              {item.label}
-            </button>
-          </li>
-        ))}
+        {filteredItems.map((item) => {
+          const id = 'id' in item ? item.id : item.href;
+          const label = 'label' in item ? item.label : item.title;
+          
+          return (
+            <li key={id}>
+              <button
+                onClick={() => onNavigate(id)}
+                className={cn(
+                  "text-sm w-full text-left px-3 py-1.5 rounded-md transition-all duration-200",
+                  currentPage === id
+                    ? "bg-blue-500/10 text-blue-400 font-medium"
+                    : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+                )}
+              >
+                {label}
+              </button>
+            </li>
+          );
+        })}
       </ul>
     );
   };

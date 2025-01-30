@@ -31,6 +31,7 @@ import { AccordionPage } from "./pages/components/AccordionPage";
 import { CodeEditorPage } from "./pages/components/CodeEditorPage";
 import { FeaturesPage } from "./pages/FeaturesPage";
 import { Toaster } from 'react-hot-toast';
+import { SchemaEditorPage } from "./pages/features/SchemaEditorPage";
 
 export const App = () => {
   const [currentPage, setCurrentPage] = React.useState(() => {
@@ -115,6 +116,8 @@ export const App = () => {
         return <AccordionPage />;
       case "code-editor":
         return <CodeEditorPage />;
+      case "schema-editor":
+        return <SchemaEditorPage />;
       default:
         return <GettingStartedPage />;
     }
