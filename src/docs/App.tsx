@@ -93,7 +93,7 @@ export const App = () => {
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <Header>
         <HeaderContent>
-          <Title level={3} className="text-blue-600 dark:text-blue-400">AV1 Components</Title>
+          <Title level={3} className="text-blue-600 dark:text-blue-400">AV1-C</Title>
           <div className="ml-auto flex items-center gap-4">
             <ThemeToggle />
             <Button
