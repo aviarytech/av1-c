@@ -1,6 +1,6 @@
 {
   "name": "av1-c",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "AV1 React Component Library",
   "author": "Your Name",
   "license": "MIT",
@@ -47,4 +47,4 @@
     "components",
     "ui"
   ]
-} 
+}
