@@ -138,6 +138,68 @@ const MyComponent = () => (
           </ComponentDemo>
         </div>
       </section>
+
+      <ComponentDemo
+        title="With Images"
+        description="Dropdown items with images"
+        code={`<Dropdown trigger={<Button>User Menu</Button>}>
+  <DropdownItem>
+    <img 
+      src="/avatars/user1.jpg"
+      alt="User 1 avatar"
+      className="h-5 w-5 rounded-full object-cover"
+    />
+    John Doe
+  </DropdownItem>
+  <DropdownItem>
+    <img 
+      src="/avatars/user2.jpg"
+      alt="User 2 avatar"
+      className="h-5 w-5 rounded-full object-cover"
+    />
+    Jane Smith
+  </DropdownItem>
+</Dropdown>`}
+      >
+        <Dropdown trigger={<Button>User Menu</Button>}>
+          <DropdownItem>
+            <img 
+              src="https://github.com/github.png"
+              alt="GitHub avatar"
+              className="h-5 w-5 rounded-full object-cover"
+            />
+            GitHub
+          </DropdownItem>
+          <DropdownItem>
+            <img 
+              src="https://avatars.githubusercontent.com/u/6412038?s=200&v=4"
+              alt="React avatar"
+              className="h-5 w-5 rounded-full object-cover"
+            />
+            React
+          </DropdownItem>
+        </Dropdown>
+      </ComponentDemo>
+
+      <section>
+        <Title level={3}>DropdownItem Properties</Title>
+        <div className="mt-4">
+          <PropsTable
+            props={[
+              {
+                name: "icon",
+                type: "ReactNode",
+                description: "Icon element to display",
+              },
+              {
+                name: "className",
+                type: "string",
+                description: "Additional CSS classes",
+              },
+            ]}
+          />
+        </div>
+      </section>
     </div>
   );
 }; 

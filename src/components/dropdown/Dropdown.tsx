@@ -21,6 +21,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   className,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [position, setPosition] = React.useState<{ top?: number; bottom?: number; left: number; right: number }>({ left: 0, right: 0 });
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLDivElement>(null);
 
@@ -50,6 +51,34 @@ export const Dropdown: React.FC<DropdownProps> = ({
     };
   }, [variant]);
 
+  // Update position when scrolling or resizing
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const updatePosition = () => {
+      if (!triggerRef.current) return;
+      const rect = triggerRef.current.getBoundingClientRect();
+      
+      setPosition({
+        left: rect.left,
+        right: window.innerWidth - rect.right,
+        ...(direction === 'down' 
+          ? { top: rect.bottom + 8 }
+          : { bottom: window.innerHeight - rect.top + 8 }
+        ),
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isOpen, direction]);
+
   const triggerClasses = cn({
     "cursor-pointer": true,
     "flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors": 
@@ -76,22 +105,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
     className
   );
 
-  // Get position for the dropdown menu
-  const getDropdownPosition = () => {
-    if (!triggerRef.current) return {};
-    const rect = triggerRef.current.getBoundingClientRect();
-    
-    return {
-      position: 'fixed' as const,
-      left: rect.left,
-      right: window.innerWidth - rect.right,
-      ...(direction === 'down' 
-        ? { top: rect.bottom + 8 }
-        : { bottom: window.innerHeight - rect.top + 8 }
-      ),
-    };
-  };
-
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <div 
@@ -105,7 +118,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
         <div
           className={menuClasses}
           style={{
-            ...getDropdownPosition(),
+            position: 'fixed',
+            ...position,
             zIndex: ZINDEX.dropdown,
           }}
         >
@@ -117,22 +131,26 @@ export const Dropdown: React.FC<DropdownProps> = ({
   );
 };
 
-export const DropdownItem = React.forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, children, ...props }, ref) => (
-  <button
-    ref={ref}
-    className={cn(
-      "flex w-full items-center px-3 py-2 text-sm",
-      "text-gray-700 dark:text-gray-200",
-      "hover:bg-gray-100 dark:hover:bg-gray-800",
-      "focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800",
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </button>
-));
+export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  icon?: React.ReactNode;
+}
+
+export const DropdownItem = React.forwardRef<HTMLButtonElement, DropdownItemProps>(
+  ({ className, children, icon, ...props }, ref) => (
+    <button
+      ref={ref}
+      className={cn(
+        "flex w-full items-center px-3 py-2 text-sm gap-2",
+        "text-gray-700 dark:text-gray-200",
+        "hover:bg-gray-100 dark:hover:bg-gray-800",
+        "focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800",
+        className
+      )}
+      {...props}
+    >
+      {icon}
+      {children}
+    </button>
+  )
+);
 DropdownItem.displayName = "DropdownItem"; 
