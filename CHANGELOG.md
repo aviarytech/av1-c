@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/aviarytech/av1-c/compare/v1.7.0...v1.7.1) (2025-01-30)
+
+
+### Bug Fixes
+
+* **c:** dropdown fixes ([5b6f640](https://github.com/aviarytech/av1-c/commit/5b6f64072729b1a949a790edec78a7ef3f0b417e))
+
 # [1.7.0](https://github.com/aviarytech/av1-c/compare/v1.6.0...v1.7.0) (2025-01-30)
 
 
