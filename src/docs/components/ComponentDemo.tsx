@@ -42,7 +42,7 @@ export const ComponentDemo: React.FC<ComponentDemoProps> = ({
             <CodeEditor
               value={code}
               language="typescript"
-              readOnly
+              readOnly={true}
               className="relative"
             />
           </Card.Content>

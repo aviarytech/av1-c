@@ -18,6 +18,7 @@ export { Dialog, DialogHeader, DialogContent } from './components/modal/Dialog';
 
 // Utils
 export { cn } from './utils/cn';
+export { toPascalCase, jsonSchemaToFormData, formDataToJsonSchema } from './utils/schemaUtils';
 
 // Badge
 export { Badge } from './components/badge/Badge';
@@ -27,6 +28,9 @@ export { Select } from './components/select/Select';
 
 // Checkbox
 export { Checkbox } from './components/checkbox/Checkbox';
+
+// Textarea
+export { Textarea } from './components/textarea/Textarea';
 
 // Form
 export { FormField } from './components/form/FormField';
@@ -75,4 +79,16 @@ export { Title } from './components/typography/Title';
 export { App as DocsApp } from './docs/App';
 
 // Accordion
-export { Accordion } from './components/accordion/Accordion'; 
+export { Accordion } from './components/accordion/Accordion';
+
+// Schema Editor
+export { SchemaEditor } from './components/editor/SchemaEditor';
+
+// Types
+export type { 
+  JsonSchema, 
+  JsonSchemaProperty, 
+  FormProperty, 
+  FormPropertyPath, 
+  FormData 
+} from './types/schema'; 

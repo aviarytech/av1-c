@@ -3,6 +3,8 @@ import { Card } from "../../components/card/Card";
 import { Search } from "./Search";
 import { Accordion } from "../../components/accordion/Accordion";
 import { cn } from "../../utils/cn";
+import { NavMenu, NavMenuItem } from '../../components/navigation/NavMenu';
+import { Button } from "../../components/button/Button";
 
 interface NavigationProps {
   currentPage: string;
@@ -15,6 +17,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
       title: "Getting Started",
       items: [
         { id: "getting-started", label: "Installation & Usage" },
+        { id: "features", label: "Features" },
       ],
     },
     {

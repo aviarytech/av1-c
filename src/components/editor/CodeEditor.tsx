@@ -8,10 +8,11 @@ import { json } from '@codemirror/lang-json';
 export interface CodeEditorProps {
   value: string;
   onChange?: (value: string) => void;
-  language?: "json" | "javascript" | "typescript" | "jsonata" | "bash";
+  language?: "json" | "javascript" | "typescript" | "jsonata" | "bash" | "text";
   height?: string;
   className?: string;
   readOnly?: boolean;
+  extensions?: any[];
 }
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({
@@ -21,6 +22,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   height = "auto",
   className,
   readOnly = false,
+  extensions = []
 }) => {
   const getLanguageExtension = () => {
     switch (language) {
@@ -43,7 +45,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         value={value}
         height={height}
         theme={oneDark}
-        extensions={getLanguageExtension()}
+        extensions={[...getLanguageExtension(), ...extensions]}
         onChange={onChange}
         editable={!readOnly}
         basicSetup={{

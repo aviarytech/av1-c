@@ -22,15 +22,14 @@ import { ErrorStatePage } from "./pages/components/ErrorStatePage";
 import { BreadcrumbPage } from "./pages/components/BreadcrumbPage";
 import { ContainerPage } from "./pages/layout/ContainerPage";
 import { NavMenuPage } from "./pages/components/NavMenuPage";
-import { User, Settings, ChevronDown } from "lucide-react";
 import { HeaderPage } from "./pages/components/HeaderPage";
 import { TitlePage } from "./pages/components/TitlePage";
-import { Input } from "../components/input/Input";
 import { FormFieldPage } from "./pages/components/FormFieldPage";
 import { LabelPage } from "./pages/components/LabelPage";
 import { CodePage } from "./pages/components/CodePage";
 import { AccordionPage } from "./pages/components/AccordionPage";
 import { CodeEditorPage } from "./pages/components/CodeEditorPage";
+import { FeaturesPage } from "./pages/FeaturesPage";
 
 export const App = () => {
   const [currentPage, setCurrentPage] = React.useState("getting-started");
@@ -39,6 +38,8 @@ export const App = () => {
     switch (currentPage) {
       case "getting-started":
         return <GettingStartedPage />;
+      case "features":
+        return <FeaturesPage />;
       case "button":
         return <ButtonPage />;
       case "card":
