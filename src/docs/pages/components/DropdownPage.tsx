@@ -108,11 +108,15 @@ const MyComponent = () => (
             title="With Links"
             description="Dropdown items as links"
             code={`<Dropdown trigger={<Button>Navigation</Button>}>
-  <DropdownItem href="https://google.com">
-    Google
+  <DropdownItem asChild>
+    <a href="https://google.com" target="_blank" rel="noopener noreferrer">
+      Google
+    </a>
   </DropdownItem>
-  <DropdownItem href="/settings">
-    Settings
+  <DropdownItem asChild>
+    <a href="/settings">
+      Settings
+    </a>
   </DropdownItem>
   <DropdownItem onClick={() => alert('Clicked!')}>
     Action Button
@@ -120,11 +124,15 @@ const MyComponent = () => (
 </Dropdown>`}
           >
             <Dropdown trigger={<Button>Navigation</Button>}>
-              <DropdownItem href="https://google.com">
-                Google
+              <DropdownItem asChild>
+                <a href="https://google.com" target="_blank" rel="noopener noreferrer">
+                  Google
+                </a>
               </DropdownItem>
-              <DropdownItem href="/settings">
-                Settings
+              <DropdownItem asChild>
+                <a href="/settings">
+                  Settings
+                </a>
               </DropdownItem>
               <DropdownItem onClick={() => alert('Clicked!')}>
                 Action Button

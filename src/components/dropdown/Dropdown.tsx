@@ -82,55 +82,52 @@ export const Dropdown: React.FC<DropdownProps> = ({
   );
 };
 
-interface DropdownItemProps {
+export interface DropdownItemProps {
   children: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
+  asChild?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
-  ({ children, href, onClick, className }, ref) => {
-    const content = (
-      <div
-        ref={ref}
-        className={cn(
-          "w-full px-4 py-2 text-sm",
-          "text-gray-700 dark:text-gray-200",
-          className
-        )}
-      >
-        {children}
-      </div>
-    );
-
+  ({ children, asChild = false, className, onClick }, ref) => {
     return (
       <Menu.Item>
-        {({ active }) => 
-          href ? (
-            <a 
-              href={href} 
-              onClick={onClick}
-              className={cn(
-                "block w-full",
-                active && "bg-gray-100 dark:bg-gray-700"
-              )}
-            >
-              {content}
-            </a>
-          ) : (
+        {({ active }) => {
+          if (asChild) {
+            const child = React.Children.only(children) as React.ReactElement;
+            return React.cloneElement(child, {
+              className: cn(
+                "block w-full px-4 py-2 text-sm",
+                "text-gray-700 dark:text-gray-200",
+                active && "bg-gray-100 dark:bg-gray-700",
+                child.props.className,
+                className
+              ),
+              onClick: (e: React.MouseEvent) => {
+                child.props.onClick?.(e);
+                onClick?.();
+              },
+              ref
+            });
+          }
+
+          return (
             <button 
               type="button" 
+              ref={ref as any}
               onClick={onClick}
               className={cn(
-                "block w-full text-left",
-                active && "bg-gray-100 dark:bg-gray-700"
+                "block w-full px-4 py-2 text-sm text-left",
+                "text-gray-700 dark:text-gray-200",
+                active && "bg-gray-100 dark:bg-gray-700",
+                className
               )}
             >
-              {content}
+              {children}
             </button>
-          )
-        }
+          );
+        }}
       </Menu.Item>
     );
   }
