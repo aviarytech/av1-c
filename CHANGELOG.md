@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/aviarytech/av1-c/compare/v1.8.1...v1.8.2) (2025-01-30)
+
+
+### Bug Fixes
+
+* **c:** dropdown asChild ([bf5bcc5](https://github.com/aviarytech/av1-c/commit/bf5bcc5edd4e93a086801675100b86d5dc7b2628))
+
 ## [1.8.1](https://github.com/aviarytech/av1-c/compare/v1.8.0...v1.8.1) (2025-01-30)
 
 
