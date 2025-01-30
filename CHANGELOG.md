@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/aviarytech/av1-c/compare/v1.6.0...v1.7.0) (2025-01-30)
+
+
+### Features
+
+* **c:** dropdown direction added ([fe3af52](https://github.com/aviarytech/av1-c/commit/fe3af52a5435bd9ea37646d797f1b3305250725a))
+
 # [1.6.0](https://github.com/aviarytech/av1-c/compare/v1.5.0...v1.6.0) (2025-01-30)
 
 
