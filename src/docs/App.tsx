@@ -33,7 +33,37 @@ import { FeaturesPage } from "./pages/FeaturesPage";
 import { Toaster } from 'react-hot-toast';
 
 export const App = () => {
-  const [currentPage, setCurrentPage] = React.useState("getting-started");
+  const [currentPage, setCurrentPage] = React.useState(() => {
+    // First try to get page from URL hash
+    const hashPage = window.location.hash.slice(1);
+    if (hashPage) return hashPage;
+    
+    // Then try localStorage
+    const savedPage = localStorage.getItem('currentPage');
+    if (savedPage) return savedPage;
+    
+    // Default to a starting page
+    return 'getting-started';
+  });
+
+  // Update hash and localStorage when page changes
+  React.useEffect(() => {
+    window.location.hash = currentPage;
+    localStorage.setItem('currentPage', currentPage);
+  }, [currentPage]);
+
+  // Handle hash changes from browser back/forward
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      const page = window.location.hash.slice(1);
+      if (page) {
+        setCurrentPage(page);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const renderPage = () => {
     switch (currentPage) {

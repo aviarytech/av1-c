@@ -21,6 +21,12 @@ export const NavMenuPage = () => {
       description: "Menu items",
     },
     {
+      name: "direction",
+      type: "'down' | 'up'",
+      defaultValue: "down",
+      description: "Direction for the menu to expand",
+    },
+    {
       name: "className",
       type: "string",
       description: "Additional CSS classes",
@@ -117,6 +123,49 @@ const MyComponent = () => (
               >
                 <NavMenuItem>Option 1</NavMenuItem>
                 <NavMenuItem>Option 2</NavMenuItem>
+              </NavMenu>
+            </div>
+          </ComponentDemo>
+
+          <ComponentDemo
+            title="Direction"
+            description="NavMenu can expand upward or downward"
+            code={`<NavMenu 
+  trigger="Options" 
+  direction="up"
+>
+  <NavMenuItem>Option 1</NavMenuItem>
+  <NavMenuItem>Option 2</NavMenuItem>
+  <NavMenuItem>Option 3</NavMenuItem>
+</NavMenu>
+
+<NavMenu 
+  trigger="Options" 
+  direction="down"
+>
+  <NavMenuItem>Option 1</NavMenuItem>
+  <NavMenuItem>Option 2</NavMenuItem>
+  <NavMenuItem>Option 3</NavMenuItem>
+</NavMenu>`}
+          >
+            <div className="flex flex-col gap-4 items-center">
+              <div className="mt-16">
+                <NavMenu 
+                  trigger="Upward Menu" 
+                  direction="up"
+                >
+                  <NavMenuItem>Option 1</NavMenuItem>
+                  <NavMenuItem>Option 2</NavMenuItem>
+                  <NavMenuItem>Option 3</NavMenuItem>
+                </NavMenu>
+              </div>
+              <NavMenu 
+                trigger="Downward Menu" 
+                direction="down"
+              >
+                <NavMenuItem>Option 1</NavMenuItem>
+                <NavMenuItem>Option 2</NavMenuItem>
+                <NavMenuItem>Option 3</NavMenuItem>
               </NavMenu>
             </div>
           </ComponentDemo>

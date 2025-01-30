@@ -20,6 +20,12 @@ export const DropdownPage = () => {
       description: "The alignment of the dropdown menu",
     },
     {
+      name: "direction",
+      type: "'down' | 'up'",
+      defaultValue: "down",
+      description: "Direction for the menu to expand",
+    },
+    {
       name: "className",
       type: "string",
       description: "Additional CSS classes for the dropdown menu",
@@ -107,6 +113,28 @@ const MyComponent = () => (
             >
               <DropdownItem>Action</DropdownItem>
             </Dropdown>
+          </ComponentDemo>
+
+          <ComponentDemo
+            title="Upward Direction"
+            description="Dropdown menu that expands upward"
+            code={`<Dropdown
+  trigger={<Button>Upward Menu</Button>}
+  direction="up"
+>
+  <DropdownItem>Option 1</DropdownItem>
+  <DropdownItem>Option 2</DropdownItem>
+</Dropdown>`}
+          >
+            <div className="text-center mt-16">
+              <Dropdown
+                trigger={<Button>Upward Menu</Button>}
+                direction="up"
+              >
+                <DropdownItem>Option 1</DropdownItem>
+                <DropdownItem>Option 2</DropdownItem>
+              </Dropdown>
+            </div>
           </ComponentDemo>
         </div>
       </section>
