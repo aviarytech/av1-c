@@ -3,31 +3,23 @@ import { cn } from "../../utils/cn";
 import { ChevronDown } from "lucide-react";
 import { Dropdown, DropdownProps } from "../dropdown/Dropdown";
 
-export interface NavMenuProps extends Omit<DropdownProps, 'variant' | 'trigger'> {
+export interface NavMenuProps extends Omit<DropdownProps, 'trigger'> {
   trigger: React.ReactNode;
 }
 
 export const NavMenu: React.FC<NavMenuProps> = ({
   trigger,
   children,
-  direction = "down",
   ...props
 }) => {
   return (
     <Dropdown
       trigger={
-        <>
+        <div className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
           {trigger}
-          <ChevronDown 
-            className={cn(
-              "h-4 w-4 transition-transform duration-200",
-              direction === "up" && "rotate-180"
-            )} 
-          />
-        </>
+          <ChevronDown className="h-4 w-4" />
+        </div>
       }
-      variant="nav"
-      direction={direction}
       {...props}
     >
       {children}
@@ -52,4 +44,5 @@ export const NavMenuItem = React.forwardRef<
     {children}
   </button>
 ));
+
 NavMenuItem.displayName = "NavMenuItem"; 

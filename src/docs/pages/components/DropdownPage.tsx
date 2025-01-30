@@ -20,15 +20,27 @@ export const DropdownPage = () => {
       description: "The alignment of the dropdown menu",
     },
     {
-      name: "direction",
-      type: "'down' | 'up'",
-      defaultValue: "down",
-      description: "Direction for the menu to expand",
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes for the dropdown menu",
+    },
+  ];
+
+  const dropdownItemProps = [
+    {
+      name: "href",
+      type: "string",
+      description: "Optional URL for link items",
+    },
+    {
+      name: "onClick",
+      type: "() => void",
+      description: "Click handler for the item",
     },
     {
       name: "className",
       type: "string",
-      description: "Additional CSS classes for the dropdown menu",
+      description: "Additional CSS classes",
     },
   ];
 
@@ -36,23 +48,18 @@ export const DropdownPage = () => {
     <div className="space-y-12">
       <ComponentDemo
         title="Dropdown"
-        description="A dropdown menu component that can be triggered by any element."
+        description="An accessible dropdown menu component powered by Headless UI."
         code={`import { Dropdown, DropdownItem } from "av1-c";
 
 const MyComponent = () => (
-  <Dropdown 
-    trigger={<Button>Open Menu</Button>}
-    align="left"
-  >
+  <Dropdown trigger={<Button>Open Menu</Button>}>
     <DropdownItem>Profile</DropdownItem>
     <DropdownItem>Settings</DropdownItem>
     <DropdownItem>Logout</DropdownItem>
   </Dropdown>
 );`}
       >
-        <Dropdown
-          trigger={<Button>Open Menu</Button>}
-        >
+        <Dropdown trigger={<Button>Open Menu</Button>}>
           <DropdownItem>Profile</DropdownItem>
           <DropdownItem>Settings</DropdownItem>
           <DropdownItem>Logout</DropdownItem>
@@ -73,7 +80,7 @@ const MyComponent = () => (
             title="Right Aligned"
             description="Dropdown menu aligned to the right"
             code={`<Dropdown
-  trigger={<Button>Right Menu</Button>}
+  trigger={<Button>Long Buttn with a Right Menu</Button>}
   align="right"
 >
   <DropdownItem>Option 1</DropdownItem>
@@ -82,7 +89,7 @@ const MyComponent = () => (
           >
             <div className="text-right">
               <Dropdown
-                trigger={<Button>Right Menu</Button>}
+                trigger={<Button>Long Buttn with a Right Menu</Button>}
                 align="right"
               >
                 <DropdownItem>Option 1</DropdownItem>
@@ -92,112 +99,89 @@ const MyComponent = () => (
           </ComponentDemo>
 
           <ComponentDemo
-            title="Custom Trigger"
-            description="Using a custom trigger element"
-            code={`<Dropdown
-  trigger={
-    <Button variant="outline">
-      Custom Trigger
-    </Button>
-  }
->
-  <DropdownItem>Action</DropdownItem>
+            title="With Links"
+            description="Dropdown items as links"
+            code={`<Dropdown trigger={<Button>Navigation</Button>}>
+  <DropdownItem href="https://google.com">
+    Google
+  </DropdownItem>
+  <DropdownItem href="/settings">
+    Settings
+  </DropdownItem>
+  <DropdownItem onClick={() => alert('Clicked!')}>
+    Action Button
+  </DropdownItem>
 </Dropdown>`}
           >
-            <Dropdown
-              trigger={
-                <Button variant="outline">
-                  Custom Trigger
-                </Button>
-              }
-            >
-              <DropdownItem>Action</DropdownItem>
+            <Dropdown trigger={<Button>Navigation</Button>}>
+              <DropdownItem href="https://google.com">
+                Google
+              </DropdownItem>
+              <DropdownItem href="/settings">
+                Settings
+              </DropdownItem>
+              <DropdownItem onClick={() => alert('Clicked!')}>
+                Action Button
+              </DropdownItem>
             </Dropdown>
           </ComponentDemo>
 
           <ComponentDemo
-            title="Upward Direction"
-            description="Dropdown menu that expands upward"
-            code={`<Dropdown
-  trigger={<Button>Upward Menu</Button>}
-  direction="up"
->
-  <DropdownItem>Option 1</DropdownItem>
-  <DropdownItem>Option 2</DropdownItem>
+            title="With Icons"
+            description="Dropdown items with icons"
+            code={`<Dropdown trigger={<Button>User Menu</Button>}>
+  <DropdownItem>
+    <div className="flex items-center gap-2">
+      <img 
+        src="https://github.com/github.png"
+        alt="GitHub"
+        className="h-5 w-5 rounded-full"
+      />
+      GitHub
+    </div>
+  </DropdownItem>
+  <DropdownItem>
+    <div className="flex items-center gap-2">
+      <img 
+        src="https://avatars.githubusercontent.com/u/6412038?s=200&v=4"
+        alt="React"
+        className="h-5 w-5 rounded-full"
+      />
+      React
+    </div>
+  </DropdownItem>
 </Dropdown>`}
           >
-            <div className="text-center mt-16">
-              <Dropdown
-                trigger={<Button>Upward Menu</Button>}
-                direction="up"
-              >
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-              </Dropdown>
-            </div>
+            <Dropdown trigger={<Button>User Menu</Button>}>
+              <DropdownItem>
+                <div className="flex items-center gap-2">
+                  <img 
+                    src="https://github.com/github.png"
+                    alt="GitHub"
+                    className="h-5 w-5 rounded-full"
+                  />
+                  GitHub
+                </div>
+              </DropdownItem>
+              <DropdownItem>
+                <div className="flex items-center gap-2">
+                  <img 
+                    src="https://avatars.githubusercontent.com/u/6412038?s=200&v=4"
+                    alt="React"
+                    className="h-5 w-5 rounded-full"
+                  />
+                  React
+                </div>
+              </DropdownItem>
+            </Dropdown>
           </ComponentDemo>
         </div>
       </section>
 
-      <ComponentDemo
-        title="With Images"
-        description="Dropdown items with images"
-        code={`<Dropdown trigger={<Button>User Menu</Button>}>
-  <DropdownItem>
-    <img 
-      src="/avatars/user1.jpg"
-      alt="User 1 avatar"
-      className="h-5 w-5 rounded-full object-cover"
-    />
-    John Doe
-  </DropdownItem>
-  <DropdownItem>
-    <img 
-      src="/avatars/user2.jpg"
-      alt="User 2 avatar"
-      className="h-5 w-5 rounded-full object-cover"
-    />
-    Jane Smith
-  </DropdownItem>
-</Dropdown>`}
-      >
-        <Dropdown trigger={<Button>User Menu</Button>}>
-          <DropdownItem>
-            <img 
-              src="https://github.com/github.png"
-              alt="GitHub avatar"
-              className="h-5 w-5 rounded-full object-cover"
-            />
-            GitHub
-          </DropdownItem>
-          <DropdownItem>
-            <img 
-              src="https://avatars.githubusercontent.com/u/6412038?s=200&v=4"
-              alt="React avatar"
-              className="h-5 w-5 rounded-full object-cover"
-            />
-            React
-          </DropdownItem>
-        </Dropdown>
-      </ComponentDemo>
-
       <section>
         <Title level={3}>DropdownItem Properties</Title>
         <div className="mt-4">
-          <PropsTable
-            props={[
-              {
-                name: "icon",
-                type: "ReactNode",
-                description: "Icon element to display",
-              },
-              {
-                name: "className",
-                type: "string",
-                description: "Additional CSS classes",
-              },
-            ]}
-          />
+          <PropsTable props={dropdownItemProps} />
         </div>
       </section>
     </div>
