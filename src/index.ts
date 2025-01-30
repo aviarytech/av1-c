@@ -5,7 +5,7 @@ export { CreatorIndicator } from './components/indicators/CreatorIndicator';
 export { Skeleton } from './components/loading/Skeleton';
 
 // Card
-export { Card, CardHeader, CardFooter } from './components/card/Card';
+export { Card } from './components/card/Card';
 
 // Button
 export { Button } from './components/button/Button';
@@ -57,4 +57,16 @@ export { CodeEditor } from './components/editor/CodeEditor';
 
 // Modal
 export { SelectModal } from './components/modal/SelectModal';
-export type { SelectOption } from './components/modal/SelectModal'; 
+export type { SelectOption } from './components/modal/SelectModal';
+
+// Header
+export { Header, HeaderContent, HeaderNav, HeaderNavItem } from './components/header/Header';
+
+// Navigation
+export { NavMenu, NavMenuItem } from './components/navigation/NavMenu';
+
+// Table
+export { Table } from './components/table/Table';
+
+// Typography
+export { Title } from './components/typography/Title'; 

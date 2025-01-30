@@ -21,12 +21,46 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("p-5 hover:bg-gray-750/50 transition-colors", className)}
+      className={cn("p-6 space-y-1.5", className)}
       {...props}
     />
   )
 );
 CardHeader.displayName = "CardHeader";
+
+export const CardTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight",
+      className
+    )}
+    {...props}
+  />
+));
+CardTitle.displayName = "CardTitle";
+
+export const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn("text-sm text-gray-400", className)}
+    {...props}
+  />
+));
+CardDescription.displayName = "CardDescription";
+
+export const CardContent = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+  )
+);
+CardContent.displayName = "CardContent";
 
 export const CardFooter = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, ...props }, ref) => (
@@ -40,4 +74,15 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardProps>(
     />
   )
 );
-CardFooter.displayName = "CardFooter"; 
+CardFooter.displayName = "CardFooter";
+
+// Attach all components to Card
+const CardComponent = Object.assign(Card, {
+  Header: CardHeader,
+  Title: CardTitle,
+  Description: CardDescription,
+  Content: CardContent,
+  Footer: CardFooter,
+});
+
+export { CardComponent as Card }; 
