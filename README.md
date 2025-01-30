@@ -1,8 +1,8 @@
 # AV1 Components
 
-## Code Editor
+AV1 Components is a library of UI components for building AV1 products and related projects. It is built with Tailwind CSS and React.
 
-### Usage
+## Usage
 
 ```tsx
 import { CodeEditor } from "av1-c";
