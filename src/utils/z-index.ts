@@ -9,8 +9,6 @@ export const ZINDEX = {
   
   // Overlays
   dropdown: 40,
-  navMenu: 40,
-  select: 40,
   tooltip: 50,
   
   // Modal layers

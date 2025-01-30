@@ -1,12 +1,53 @@
-import { serve, file } from "bun";
+import { serve, file, spawn } from "bun";
 import { join } from "path";
 import { build } from "bun";
-import postcss from "postcss";
-import tailwindcss from "@tailwindcss/postcss";
-import autoprefixer from "autoprefixer";
 
 const port = process.env.PORT || 5055;
 const isProd = process.argv.includes("--prod");
+
+// Add function to run Tailwind CLI
+async function buildTailwind() {
+  const proc = spawn({
+    cmd: ["bunx", "@tailwindcss/cli", "-i", "src/docs/index.css", "-o", "dist/docs/styles.css"],
+    stdout: "pipe",
+  });
+  
+  const output = await new Response(proc.stdout).text();
+  console.log(output);
+}
+
+// Function to watch Tailwind output
+async function watchTailwind() {
+  const proc = spawn({
+    cmd: ["bunx", "@tailwindcss/cli", "-i", "src/docs/index.css", "-o", "dist/docs/styles.css", "--watch"],
+    stdout: "pipe",
+  });
+  
+  const reader = proc.stdout.getReader();
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value) {
+        console.log(new TextDecoder().decode(value));
+      }
+    }
+  } catch (err) {
+    console.error('Error reading Tailwind output:', err);
+  }
+}
+
+// Initialize Tailwind
+function initTailwind() {
+  buildTailwind().then(() => {
+    if (!isProd) {
+      watchTailwind();
+    }
+  });
+}
+
+// Start Tailwind processing
+initTailwind();
 
 // Define MIME types for common file extensions
 const MIME_TYPES: Record<string, string> = {
@@ -22,18 +63,6 @@ const MIME_TYPES: Record<string, string> = {
   ".tsx": "text/typescript",
   ".ts": "text/typescript",
 };
-
-// Process CSS with PostCSS and Tailwind
-async function processCss(css: string) {
-  const result = await postcss([
-    tailwindcss,
-    autoprefixer,
-  ]).process(css, {
-    from: 'src/docs/index.css'
-  });
-  
-  return result.css;
-}
 
 const server = serve({
   port,
@@ -96,16 +125,21 @@ const server = serve({
       }
 
       // Handle CSS processing in development
-      if (!isProd && pathname.endsWith('.css')) {
-        const cssContent = await file(filePath).text();
-
-        const processedCss = await processCss(cssContent);
-        return new Response(processedCss, {
-          headers: {
-            "Content-Type": "text/css; charset=utf-8",
-            "Cache-Control": "no-cache",
-          },
-        });
+      if (pathname.endsWith('.css')) {
+        try {
+          const cssPath = join(process.cwd(), "dist/docs/styles.css");
+          const cssContent = await file(cssPath).arrayBuffer();
+          
+          return new Response(cssContent, {
+            headers: {
+              "Content-Type": "text/css; charset=utf-8",
+              "Cache-Control": "no-cache",
+            },
+          });
+        } catch (err) {
+          console.error('Error serving CSS:', err);
+          return new Response("CSS Error", { status: 500 });
+        }
       }
 
       // Try to read the file

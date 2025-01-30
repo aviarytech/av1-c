@@ -46,6 +46,7 @@ export { Dropdown, DropdownItem } from './components/dropdown/Dropdown';
 
 // Toast
 export { Toast } from './components/toast/Toast';
+export { toast } from 'react-hot-toast';
 
 // Tooltip
 export { Tooltip } from './components/tooltip/Tooltip';

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "../../utils/cn";
-import { ChevronDown } from "lucide-react";
 import { ZINDEX } from "../../utils/z-index";
 
 export interface DropdownProps {
@@ -31,12 +30,19 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative inline-block" ref={dropdownRef}>
       <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
       {isOpen && (
         <div
           className={cn(
-            "absolute right-0 mt-2 rounded-md bg-gray-800 shadow-lg",
+            "absolute mt-2 rounded-lg shadow-lg",
+            "bg-white dark:bg-gray-900",
+            "border border-gray-200 dark:border-gray-800",
+            "min-w-[8rem] py-1",
+            {
+              "left-0": align === "left",
+              "right-0": align === "right",
+            },
             className
           )}
           style={{ zIndex: ZINDEX.dropdown }}
@@ -55,7 +61,10 @@ export const DropdownItem = React.forwardRef<
   <button
     ref={ref}
     className={cn(
-      "flex w-full items-center rounded-md px-2 py-1.5 text-sm text-gray-300 hover:bg-gray-700 focus:outline-none",
+      "flex w-full items-center px-3 py-2 text-sm",
+      "text-gray-700 dark:text-gray-200",
+      "hover:bg-gray-100 dark:hover:bg-gray-800",
+      "focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800",
       className
     )}
     {...props}

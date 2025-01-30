@@ -37,6 +37,7 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "@tailwindcss/cli": "^4.0.1",
     "@tailwindcss/postcss": "^4.0.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -53,8 +54,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "docs:dev": "bun run src/docs/server.ts",
-    "docs:build": "bun build src/docs/index.tsx --outdir dist/docs && cp src/docs/index.html dist/docs/index.html && bunx postcss src/docs/index.css -o dist/docs/index.css",
+    "docs:dev": "bun run --watch src/docs/server.ts",
+    "docs:build": "bun build src/docs/index.tsx --outdir dist/docs && cp src/docs/index.html dist/docs/index.html",
     "docs:preview": "bun run src/docs/server.ts --prod"
   },
   "keywords": [

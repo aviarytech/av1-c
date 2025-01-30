@@ -24,8 +24,21 @@ export const NavMenu: React.FC<NavMenuProps> = ({
       }
     };
 
+    // Close menu when pressing escape
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+      setIsOpen(false); // Ensure menu is closed on unmount
+    };
   }, []);
 
   return (
@@ -43,7 +56,7 @@ export const NavMenu: React.FC<NavMenuProps> = ({
             "absolute right-0 mt-2 w-48 rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5",
             className
           )}
-          style={{ zIndex: ZINDEX.navMenu }}
+          style={{ zIndex: ZINDEX.dropdown }}
         >
           {children}
         </div>

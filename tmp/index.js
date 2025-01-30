@@ -24782,8 +24782,8 @@ var require_NQuads = __commonJS((exports, module) => {
         } else {
           let unique = true;
           const quads = graphs[quad.graph.value];
-          for (const q of quads) {
-            if (_compareTriples(q, quad)) {
+          for (const q2 of quads) {
+            if (_compareTriples(q2, quad)) {
               unique = false;
               break;
             }
@@ -25706,14 +25706,14 @@ var require_types = __commonJS((exports, module) => {
   var api = {};
   module.exports = api;
   api.isArray = Array.isArray;
-  api.isBoolean = (v) => typeof v === "boolean" || Object.prototype.toString.call(v) === "[object Boolean]";
-  api.isDouble = (v) => api.isNumber(v) && (String(v).indexOf(".") !== -1 || Math.abs(v) >= 1000000000000000000000);
-  api.isEmptyObject = (v) => api.isObject(v) && Object.keys(v).length === 0;
-  api.isNumber = (v) => typeof v === "number" || Object.prototype.toString.call(v) === "[object Number]";
-  api.isNumeric = (v) => !isNaN(parseFloat(v)) && isFinite(v);
-  api.isObject = (v) => Object.prototype.toString.call(v) === "[object Object]";
-  api.isString = (v) => typeof v === "string" || Object.prototype.toString.call(v) === "[object String]";
-  api.isUndefined = (v) => typeof v === "undefined";
+  api.isBoolean = (v2) => typeof v2 === "boolean" || Object.prototype.toString.call(v2) === "[object Boolean]";
+  api.isDouble = (v2) => api.isNumber(v2) && (String(v2).indexOf(".") !== -1 || Math.abs(v2) >= 1000000000000000000000);
+  api.isEmptyObject = (v2) => api.isObject(v2) && Object.keys(v2).length === 0;
+  api.isNumber = (v2) => typeof v2 === "number" || Object.prototype.toString.call(v2) === "[object Number]";
+  api.isNumeric = (v2) => !isNaN(parseFloat(v2)) && isFinite(v2);
+  api.isObject = (v2) => Object.prototype.toString.call(v2) === "[object Object]";
+  api.isString = (v2) => typeof v2 === "string" || Object.prototype.toString.call(v2) === "[object String]";
+  api.isUndefined = (v2) => typeof v2 === "undefined";
 });
 
 // node_modules/jsonld/lib/graphTypes.js
@@ -25721,29 +25721,29 @@ var require_graphTypes = __commonJS((exports, module) => {
   var types2 = require_types();
   var api = {};
   module.exports = api;
-  api.isSubject = (v) => {
-    if (types2.isObject(v) && !(("@value" in v) || ("@set" in v) || ("@list" in v))) {
-      const keyCount = Object.keys(v).length;
-      return keyCount > 1 || !("@id" in v);
+  api.isSubject = (v2) => {
+    if (types2.isObject(v2) && !(("@value" in v2) || ("@set" in v2) || ("@list" in v2))) {
+      const keyCount = Object.keys(v2).length;
+      return keyCount > 1 || !("@id" in v2);
     }
     return false;
   };
-  api.isSubjectReference = (v) => types2.isObject(v) && Object.keys(v).length === 1 && ("@id" in v);
-  api.isValue = (v) => types2.isObject(v) && ("@value" in v);
-  api.isList = (v) => types2.isObject(v) && ("@list" in v);
-  api.isGraph = (v) => {
-    return types2.isObject(v) && "@graph" in v && Object.keys(v).filter((key) => key !== "@id" && key !== "@index").length === 1;
+  api.isSubjectReference = (v2) => types2.isObject(v2) && Object.keys(v2).length === 1 && ("@id" in v2);
+  api.isValue = (v2) => types2.isObject(v2) && ("@value" in v2);
+  api.isList = (v2) => types2.isObject(v2) && ("@list" in v2);
+  api.isGraph = (v2) => {
+    return types2.isObject(v2) && "@graph" in v2 && Object.keys(v2).filter((key) => key !== "@id" && key !== "@index").length === 1;
   };
-  api.isSimpleGraph = (v) => {
-    return api.isGraph(v) && !("@id" in v);
+  api.isSimpleGraph = (v2) => {
+    return api.isGraph(v2) && !("@id" in v2);
   };
-  api.isBlankNode = (v) => {
-    if (types2.isObject(v)) {
-      if ("@id" in v) {
-        const id2 = v["@id"];
+  api.isBlankNode = (v2) => {
+    if (types2.isObject(v2)) {
+      if ("@id" in v2) {
+        const id2 = v2["@id"];
         return !types2.isString(id2) || id2.indexOf("_:") === 0;
       }
-      return Object.keys(v).length === 0 || !(("@value" in v) || ("@set" in v) || ("@list" in v));
+      return Object.keys(v2).length === 0 || !(("@value" in v2) || ("@set" in v2) || ("@list" in v2));
     }
     return false;
   };
@@ -25792,13 +25792,13 @@ var require_util = __commonJS((exports, module) => {
         }
       } else if (value instanceof Map) {
         rval = new Map;
-        for (const [k2, v] of value) {
-          rval.set(k2, api.clone(v));
+        for (const [k2, v2] of value) {
+          rval.set(k2, api.clone(v2));
         }
       } else if (value instanceof Set) {
         rval = new Set;
-        for (const v of value) {
-          rval.add(api.clone(v));
+        for (const v2 of value) {
+          rval.add(api.clone(v2));
         }
       } else if (types2.isObject(value)) {
         rval = {};
@@ -25846,24 +25846,24 @@ var require_util = __commonJS((exports, module) => {
     }
     return rval;
   };
-  api.validateTypeValue = (v, isFrame) => {
-    if (types2.isString(v)) {
+  api.validateTypeValue = (v2, isFrame) => {
+    if (types2.isString(v2)) {
       return;
     }
-    if (types2.isArray(v) && v.every((vv) => types2.isString(vv))) {
+    if (types2.isArray(v2) && v2.every((vv) => types2.isString(vv))) {
       return;
     }
-    if (isFrame && types2.isObject(v)) {
-      switch (Object.keys(v).length) {
+    if (isFrame && types2.isObject(v2)) {
+      switch (Object.keys(v2).length) {
         case 0:
           return;
         case 1:
-          if ("@default" in v && api.asArray(v["@default"]).every((vv) => types2.isString(vv))) {
+          if ("@default" in v2 && api.asArray(v2["@default"]).every((vv) => types2.isString(vv))) {
             return;
           }
       }
     }
-    throw new JsonLdError('Invalid JSON-LD syntax; "@type" value must a string, an array of ' + "strings, an empty object, " + "or a default object.", "jsonld.SyntaxError", { code: "invalid type value", value: v });
+    throw new JsonLdError('Invalid JSON-LD syntax; "@type" value must a string, an array of ' + "strings, an empty object, " + "or a default object.", "jsonld.SyntaxError", { code: "invalid type value", value: v2 });
   };
   api.hasProperty = (subject, property) => {
     if (subject.hasOwnProperty(property)) {
@@ -26251,8 +26251,8 @@ var require_url = __commonJS((exports, module) => {
     return output.join("/");
   };
   var isAbsoluteRegex = /^([A-Za-z][A-Za-z0-9+-.]*|_):[^\s]*$/;
-  api.isAbsolute = (v) => types2.isString(v) && isAbsoluteRegex.test(v);
-  api.isRelative = (v) => types2.isString(v);
+  api.isAbsolute = (v2) => types2.isString(v2) && isAbsoluteRegex.test(v2);
+  api.isRelative = (v2) => types2.isString(v2);
 });
 
 // node_modules/jsonld/lib/documentLoaders/xhr.js
@@ -28158,11 +28158,11 @@ var require_context = __commonJS((exports, module) => {
       return activeCtx.processingMode === "json-ld-1.0";
     }
   };
-  api.isKeyword = (v) => {
-    if (!_isString(v) || v[0] !== "@") {
+  api.isKeyword = (v2) => {
+    if (!_isString(v2) || v2[0] !== "@") {
       return false;
     }
-    switch (v) {
+    switch (v2) {
       case "@base":
       case "@container":
       case "@context":
@@ -28444,7 +28444,7 @@ var require_expand = __commonJS((exports, module) => {
           });
         }
         rval = null;
-      } else if (!values.every((v) => _isString(v) || _isEmptyObject(v)) && "@language" in rval) {
+      } else if (!values.every((v2) => _isString(v2) || _isEmptyObject(v2)) && "@language" in rval) {
         throw new JsonLdError("Invalid JSON-LD syntax; only strings may be language-tagged.", "jsonld.SyntaxError", { code: "invalid language-tagged value", element: rval });
       } else if (!types2.every((t3) => _isAbsoluteIri(t3) && !(_isString(t3) && t3.indexOf("_:") === 0) || _isEmptyObject(t3))) {
         throw new JsonLdError('Invalid JSON-LD syntax; an element containing "@value" and "@type" ' + 'must have an absolute IRI for the value of "@type".', "jsonld.SyntaxError", { code: "invalid typed value", element: rval });
@@ -28582,19 +28582,19 @@ var require_expand = __commonJS((exports, module) => {
               throw new JsonLdError('Invalid JSON-LD syntax; "@id" value an empty object or array ' + "of strings, if framing", "jsonld.SyntaxError", { code: "invalid @id value", value });
             }
           } else if (_isArray(value)) {
-            if (!value.every((v) => _isString(v))) {
+            if (!value.every((v2) => _isString(v2))) {
               throw new JsonLdError('Invalid JSON-LD syntax; "@id" value an empty object or array ' + "of strings, if framing", "jsonld.SyntaxError", { code: "invalid @id value", value });
             }
           } else {
             throw new JsonLdError('Invalid JSON-LD syntax; "@id" value an empty object or array ' + "of strings, if framing", "jsonld.SyntaxError", { code: "invalid @id value", value });
           }
         }
-        _addValue(expandedParent, "@id", _asArray(value).map((v) => {
-          if (_isString(v)) {
-            const ve = _expandIri(activeCtx, v, { base: true }, options);
+        _addValue(expandedParent, "@id", _asArray(value).map((v2) => {
+          if (_isString(v2)) {
+            const ve2 = _expandIri(activeCtx, v2, { base: true }, options);
             if (options.eventHandler) {
-              if (ve === null) {
-                if (v === null) {
+              if (ve2 === null) {
+                if (v2 === null) {
                   _handleEvent({
                     event: {
                       type: ["JsonLdEvent"],
@@ -28602,7 +28602,7 @@ var require_expand = __commonJS((exports, module) => {
                       level: "warning",
                       message: "Null @id found.",
                       details: {
-                        id: v
+                        id: v2
                       }
                     },
                     options
@@ -28615,13 +28615,13 @@ var require_expand = __commonJS((exports, module) => {
                       level: "warning",
                       message: "Reserved @id found.",
                       details: {
-                        id: v
+                        id: v2
                       }
                     },
                     options
                   });
                 }
-              } else if (!_isAbsoluteIri(ve)) {
+              } else if (!_isAbsoluteIri(ve2)) {
                 _handleEvent({
                   event: {
                     type: ["JsonLdEvent"],
@@ -28629,32 +28629,32 @@ var require_expand = __commonJS((exports, module) => {
                     level: "warning",
                     message: "Relative @id reference found.",
                     details: {
-                      id: v,
-                      expandedId: ve
+                      id: v2,
+                      expandedId: ve2
                     }
                   },
                   options
                 });
               }
             }
-            return ve;
+            return ve2;
           }
-          return v;
+          return v2;
         }), { propertyIsArray: options.isFrame });
         continue;
       }
       if (expandedProperty === "@type") {
         if (_isObject(value)) {
-          value = Object.fromEntries(Object.entries(value).map(([k2, v]) => [
+          value = Object.fromEntries(Object.entries(value).map(([k2, v2]) => [
             _expandIri(typeScopedContext, k2, { vocab: true }),
-            _asArray(v).map((vv) => _expandIri(typeScopedContext, vv, { base: true, vocab: true }, { ...options, typeExpansion: true }))
+            _asArray(v2).map((vv) => _expandIri(typeScopedContext, vv, { base: true, vocab: true }, { ...options, typeExpansion: true }))
           ]));
         }
         _validateTypeValue(value, options.isFrame);
-        _addValue(expandedParent, "@type", _asArray(value).map((v) => {
-          if (_isString(v)) {
-            const ve = _expandIri(typeScopedContext, v, { base: true, vocab: true }, { ...options, typeExpansion: true });
-            if (ve !== "@json" && !_isAbsoluteIri(ve)) {
+        _addValue(expandedParent, "@type", _asArray(value).map((v2) => {
+          if (_isString(v2)) {
+            const ve2 = _expandIri(typeScopedContext, v2, { base: true, vocab: true }, { ...options, typeExpansion: true });
+            if (ve2 !== "@json" && !_isAbsoluteIri(ve2)) {
               if (options.eventHandler) {
                 _handleEvent({
                   event: {
@@ -28663,16 +28663,16 @@ var require_expand = __commonJS((exports, module) => {
                     level: "warning",
                     message: "Relative @type reference found.",
                     details: {
-                      type: v
+                      type: v2
                     }
                   },
                   options
                 });
               }
             }
-            return ve;
+            return ve2;
           }
-          return v;
+          return v2;
         }), { propertyIsArray: !!options.isFrame });
         continue;
       }
@@ -28683,7 +28683,7 @@ var require_expand = __commonJS((exports, module) => {
           element: value,
           options
         }));
-        if (!includedResult.every((v) => _isSubject(v))) {
+        if (!includedResult.every((v2) => _isSubject(v2))) {
           throw new JsonLdError("Invalid JSON-LD syntax; " + "values of @included must expand to node objects.", "jsonld.SyntaxError", { code: "invalid @included value", value });
         }
         _addValue(expandedParent, "@included", includedResult, { propertyIsArray: true });
@@ -28708,7 +28708,7 @@ var require_expand = __commonJS((exports, module) => {
         if (!_isString(value) && !options.isFrame) {
           throw new JsonLdError('Invalid JSON-LD syntax; "@language" value must be a string.', "jsonld.SyntaxError", { code: "invalid language-tagged string", value });
         }
-        value = _asArray(value).map((v) => _isString(v) ? v.toLowerCase() : v);
+        value = _asArray(value).map((v2) => _isString(v2) ? v2.toLowerCase() : v2);
         for (const language2 of value) {
           if (_isString(language2) && !language2.match(REGEX_BCP47)) {
             if (options.eventHandler) {
@@ -28874,15 +28874,15 @@ var require_expand = __commonJS((exports, module) => {
       if (container.includes("@graph") && !container.some((key2) => key2 === "@id" || key2 === "@index")) {
         expandedValue = _asArray(expandedValue);
         if (!options.isFrame) {
-          expandedValue = expandedValue.filter((v) => {
-            const count = Object.keys(v).length;
-            return _dropUnsafeObject({ value: v, count, options }) !== null;
+          expandedValue = expandedValue.filter((v2) => {
+            const count = Object.keys(v2).length;
+            return _dropUnsafeObject({ value: v2, count, options }) !== null;
           });
         }
         if (expandedValue.length === 0) {
           continue;
         }
-        expandedValue = expandedValue.map((v) => ({ "@graph": _asArray(v) }));
+        expandedValue = expandedValue.map((v2) => ({ "@graph": _asArray(v2) }));
       }
       if (termCtx.mappings.has(key) && termCtx.mappings.get(key).reverse) {
         const reverseMap = expandedParent["@reverse"] = expandedParent["@reverse"] || {};
@@ -30045,7 +30045,7 @@ var require_frame = __commonJS((exports, module) => {
         const subframe = frame["@reverse"][reverseProp];
         for (const subject2 of Object.keys(state2.subjects)) {
           const nodeValues = util.getValues(state2.subjects[subject2], reverseProp);
-          if (nodeValues.some((v) => v["@id"] === id2)) {
+          if (nodeValues.some((v2) => v2["@id"] === id2)) {
             output["@reverse"] = output["@reverse"] || {};
             util.addValue(output["@reverse"], reverseProp, [], { propertyIsArray: true });
             api.frame({ ...state2, embedded: true }, [subject2], subframe, output["@reverse"][reverseProp], property);
@@ -30058,8 +30058,8 @@ var require_frame = __commonJS((exports, module) => {
   };
   api.cleanupNull = (input, options) => {
     if (types2.isArray(input)) {
-      const noNulls = input.map((v) => api.cleanupNull(v, options));
-      return noNulls.filter((v) => v);
+      const noNulls = input.map((v2) => api.cleanupNull(v2, options));
+      return noNulls.filter((v2) => v2);
     }
     if (input === "@null") {
       return null;
@@ -31579,7 +31579,7 @@ var require_jsonld = __commonJS((exports, module) => {
     };
     Object.defineProperty(jsonld, "documentLoader", {
       get: () => jsonld._documentLoader,
-      set: (v) => jsonld._documentLoader = v
+      set: (v2) => jsonld._documentLoader = v2
     });
     jsonld.documentLoader = async (url) => {
       throw new JsonLdError("Could not retrieve a JSON-LD document from the URL. URL " + "dereferencing not implemented.", "jsonld.LoadDocumentError", { code: "loading document failed", url });
@@ -33056,8 +33056,6 @@ var ZINDEX = {
   header: 20,
   navigation: 30,
   dropdown: 40,
-  navMenu: 40,
-  select: 40,
   tooltip: 50,
   dialog: 60,
   toast: 70
@@ -33180,7 +33178,7 @@ var jsx_dev_runtime4 = __toESM(require_jsx_dev_runtime(), 1);
 var Input = React5.forwardRef(({ className, type, ...props }, ref) => {
   return /* @__PURE__ */ jsx_dev_runtime4.jsxDEV("input", {
     type,
-    className: cn("flex h-9 w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50", className),
+    className: cn("flex h-9 w-full rounded-md px-3 py-1 text-sm shadow-sm transition-colors", "bg-white dark:bg-gray-800", "text-gray-900 dark:text-gray-100", "border border-gray-300 dark:border-gray-700", "placeholder:text-gray-500 dark:placeholder:text-gray-400", "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500", "disabled:cursor-not-allowed disabled:opacity-50", className),
     ref,
     ...props
   }, undefined, false, undefined, this);
@@ -56115,15 +56113,15 @@ var cva = (base2, config2) => (props) => {
 
 // src/components/button/Button.tsx
 var jsx_dev_runtime9 = __toESM(require_jsx_dev_runtime(), 1);
-var buttonVariants = cva("inline-flex items-center justify-center rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50", {
+var buttonVariants = cva("inline-flex items-center justify-center rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50", {
   variants: {
     variant: {
-      default: "bg-blue-500 text-white hover:bg-blue-600",
-      destructive: "bg-red-500/20 text-red-300 hover:bg-red-500/30",
-      outline: "border border-gray-700 bg-transparent hover:bg-gray-700",
-      ghost: "hover:bg-gray-700",
-      link: "text-blue-400 hover:text-blue-300 underline-offset-4 hover:underline",
-      amber: "bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30"
+      default: "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600",
+      destructive: "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600",
+      outline: "border border-gray-300 dark:border-gray-600 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100",
+      ghost: "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100",
+      link: "text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline-offset-4 hover:underline",
+      amber: "bg-amber-600 text-white hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600"
     },
     size: {
       default: "h-9 px-4 py-2",
@@ -56137,8 +56135,9 @@ var buttonVariants = cva("inline-flex items-center justify-center rounded-lg tra
     size: "default"
   }
 });
-var Button = React9.forwardRef(({ className, variant, size, ...props }, ref) => {
-  return /* @__PURE__ */ jsx_dev_runtime9.jsxDEV("button", {
+var Button = React9.forwardRef(({ className, variant, size, asChild, ...props }, ref) => {
+  const Comp = asChild ? "span" : "button";
+  return /* @__PURE__ */ jsx_dev_runtime9.jsxDEV(Comp, {
     className: cn(buttonVariants({ variant, size, className })),
     ref,
     ...props
@@ -56280,6 +56279,18 @@ var u2 = (e2) => {
   });
 };
 var Q = { blank: 4000, error: 4000, success: 2000, loading: 1 / 0, custom: 4000 };
+var D = (e2 = {}) => {
+  let [t3, o2] = import_react5.useState(P);
+  import_react5.useEffect(() => (A.push(o2), () => {
+    let s2 = A.indexOf(o2);
+    s2 > -1 && A.splice(s2, 1);
+  }), [t3]);
+  let a2 = t3.toasts.map((s2) => {
+    var r2, n2, i2;
+    return { ...e2, ...e2[s2.type], ...s2, removeDelay: s2.removeDelay || ((r2 = e2[s2.type]) == null ? undefined : r2.removeDelay) || (e2 == null ? undefined : e2.removeDelay), duration: s2.duration || ((n2 = e2[s2.type]) == null ? undefined : n2.duration) || (e2 == null ? undefined : e2.duration) || Q[s2.type], style: { ...e2.style, ...(i2 = e2[s2.type]) == null ? undefined : i2.style, ...s2.style } };
+  });
+  return { ...t3, toasts: a2 };
+};
 var Y = (e2, t3 = "blank", o2) => ({ createdAt: Date.now(), visible: true, dismissed: false, type: t3, ariaProps: { role: "status", "aria-live": "polite" }, message: e2, pauseDuration: 0, ...o2, id: (o2 == null ? undefined : o2.id) || F() });
 var h2 = (e2) => (t3, o2) => {
   let a2 = Y(t3, e2, o2);
@@ -56304,7 +56315,58 @@ c2.promise = (e2, t3, o2) => {
     r2 ? c2.error(r2, { id: a2, ...o2, ...o2 == null ? undefined : o2.error }) : c2.dismiss(a2);
   }), e2;
 };
+var q = (e2, t3) => {
+  u2({ type: 1, toast: { id: e2, height: t3 } });
+};
+var G = () => {
+  u2({ type: 5, time: Date.now() });
+};
 var x = new Map;
+var K = 1000;
+var Z = (e2, t3 = K) => {
+  if (x.has(e2))
+    return;
+  let o2 = setTimeout(() => {
+    x.delete(e2), u2({ type: 4, toastId: e2 });
+  }, t3);
+  x.set(e2, o2);
+};
+var O = (e2) => {
+  let { toasts: t3, pausedAt: o2 } = D(e2);
+  import_react6.useEffect(() => {
+    if (o2)
+      return;
+    let r2 = Date.now(), n2 = t3.map((i2) => {
+      if (i2.duration === 1 / 0)
+        return;
+      let d2 = (i2.duration || 0) + i2.pauseDuration - (r2 - i2.createdAt);
+      if (d2 < 0) {
+        i2.visible && c2.dismiss(i2.id);
+        return;
+      }
+      return setTimeout(() => c2.dismiss(i2.id), d2);
+    });
+    return () => {
+      n2.forEach((i2) => i2 && clearTimeout(i2));
+    };
+  }, [t3, o2]);
+  let a2 = import_react6.useCallback(() => {
+    o2 && u2({ type: 6, time: Date.now() });
+  }, [o2]), s2 = import_react6.useCallback((r2, n2) => {
+    let { reverseOrder: i2 = false, gutter: d2 = 8, defaultPosition: p2 } = n2 || {}, g2 = t3.filter((m2) => (m2.position || p2) === (r2.position || p2) && m2.height), E = g2.findIndex((m2) => m2.id === r2.id), b2 = g2.filter((m2, R) => R < E && m2.visible).length;
+    return g2.filter((m2) => m2.visible).slice(...i2 ? [b2 + 1] : [0, b2]).reduce((m2, R) => m2 + (R.height || 0) + d2, 0);
+  }, [t3]);
+  return import_react6.useEffect(() => {
+    t3.forEach((r2) => {
+      if (r2.dismissed)
+        Z(r2.id, r2.removeDelay);
+      else {
+        let n2 = x.get(r2.id);
+        n2 && (clearTimeout(n2), x.delete(r2.id));
+      }
+    });
+  }, [t3]), { toasts: t3, handlers: { updateHeight: q, startPause: G, endPause: a2, calculateOffset: s2 } };
+};
 var te = h`
 from {
   transform: scale(0) rotate(45deg);
@@ -56508,12 +56570,36 @@ var C2 = l2.memo(({ toast: e2, position: t3, style: o2, children: a2 }) => {
   return l2.createElement(xe, { className: e2.className, style: { ...s2, ...o2, ...e2.style } }, typeof a2 == "function" ? a2({ icon: r2, message: n2 }) : l2.createElement(l2.Fragment, null, r2, n2));
 });
 m(T.createElement);
+var ve = ({ id: e2, className: t3, style: o2, onHeightUpdate: a2, children: s2 }) => {
+  let r2 = T.useCallback((n2) => {
+    if (n2) {
+      let i2 = () => {
+        let d2 = n2.getBoundingClientRect().height;
+        a2(e2, d2);
+      };
+      i2(), new MutationObserver(i2).observe(n2, { subtree: true, childList: true, characterData: true });
+    }
+  }, [e2, a2]);
+  return T.createElement("div", { ref: r2, className: t3, style: o2 }, s2);
+};
+var Ee = (e2, t3) => {
+  let o2 = e2.includes("top"), a2 = o2 ? { top: 0 } : { bottom: 0 }, s2 = e2.includes("center") ? { justifyContent: "center" } : e2.includes("right") ? { justifyContent: "flex-end" } : {};
+  return { left: 0, right: 0, display: "flex", position: "absolute", transition: S() ? undefined : "all 230ms cubic-bezier(.21,1.02,.73,1)", transform: `translateY(${t3 * (o2 ? 1 : -1)}px)`, ...a2, ...s2 };
+};
 var Re = u`
   z-index: 9999;
   > * {
     pointer-events: auto;
   }
 `;
+var v = 16;
+var De = ({ reverseOrder: e2, position: t3 = "top-center", toastOptions: o2, gutter: a2, children: s2, containerStyle: r2, containerClassName: n2 }) => {
+  let { toasts: i2, handlers: d2 } = O(o2);
+  return T.createElement("div", { id: "_rht_toaster", style: { position: "fixed", zIndex: 9999, top: v, left: v, right: v, bottom: v, pointerEvents: "none", ...r2 }, className: n2, onMouseEnter: d2.startPause, onMouseLeave: d2.endPause }, i2.map((p2) => {
+    let g2 = p2.position || t3, E = d2.calculateOffset(p2, { reverseOrder: e2, gutter: a2, defaultPosition: t3 }), b2 = Ee(g2, E);
+    return T.createElement(ve, { id: p2.id, key: p2.id, onHeightUpdate: d2.updateHeight, className: p2.visible ? Re : "", style: b2 }, p2.type === "custom" ? f2(p2.message, p2) : s2 ? s2(p2) : T.createElement(C2, { toast: p2, position: g2 }));
+  }));
+};
 
 // src/docs/components/CopyButton.tsx
 var jsx_dev_runtime10 = __toESM(require_jsx_dev_runtime(), 1);
@@ -57151,7 +57237,7 @@ var Dropdown = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   return /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("div", {
-    className: "relative",
+    className: "relative inline-block",
     ref: dropdownRef,
     children: [
       /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("div", {
@@ -57159,7 +57245,10 @@ var Dropdown = ({
         children: trigger
       }, undefined, false, undefined, this),
       isOpen && /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("div", {
-        className: cn("absolute right-0 mt-2 rounded-md bg-gray-800 shadow-lg", className),
+        className: cn("absolute mt-2 rounded-lg shadow-lg", "bg-white dark:bg-gray-900", "border border-gray-200 dark:border-gray-800", "min-w-[8rem] py-1", {
+          "left-0": align === "left",
+          "right-0": align === "right"
+        }, className),
         style: { zIndex: ZINDEX.dropdown },
         children
       }, undefined, false, undefined, this)
@@ -57168,7 +57257,7 @@ var Dropdown = ({
 };
 var DropdownItem = React11.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx_dev_runtime17.jsxDEV("button", {
   ref,
-  className: cn("flex w-full items-center rounded-md px-2 py-1.5 text-sm text-gray-300 hover:bg-gray-700 focus:outline-none", className),
+  className: cn("flex w-full items-center px-3 py-2 text-sm", "text-gray-700 dark:text-gray-200", "hover:bg-gray-100 dark:hover:bg-gray-800", "focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800", className),
   ...props,
   children
 }, undefined, false, undefined, this));
@@ -57539,25 +57628,25 @@ var Dialog = React14.forwardRef(({ className, children, open, onClose, ...props 
   if (!open)
     return null;
   return /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
-    className: "fixed inset-0 z-50 flex items-center justify-center",
-    children: [
-      /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
-        className: "fixed inset-0",
-        onClick: onClose
-      }, undefined, false, undefined, this),
-      /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
+    className: "fixed inset-0 bg-black/50",
+    style: { zIndex: ZINDEX.dialog },
+    onClick: onClose,
+    children: /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
+      className: "fixed inset-0 flex items-center justify-center p-4",
+      children: /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
         ref,
-        className: cn("relative bg-gray-800 rounded-lg shadow-xl max-w-lg w-full mx-4", className),
+        className: cn("relative rounded-lg shadow-lg", "bg-white dark:bg-gray-900", "border border-gray-200 dark:border-gray-800", className),
+        onClick: (e2) => e2.stopPropagation(),
         ...props,
         children
       }, undefined, false, undefined, this)
-    ]
-  }, undefined, true, undefined, this);
+    }, undefined, false, undefined, this)
+  }, undefined, false, undefined, this);
 });
 Dialog.displayName = "Dialog";
 var DialogHeader = React14.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx_dev_runtime22.jsxDEV("div", {
   ref,
-  className: cn("p-6 border-b border-gray-700", className),
+  className: cn("p-6 border-b border-gray-200 dark:border-gray-800", className),
   ...props
 }, undefined, false, undefined, this));
 DialogHeader.displayName = "DialogHeader";
@@ -57574,36 +57663,36 @@ var jsx_dev_runtime23 = __toESM(require_jsx_dev_runtime(), 1);
 var AlertDialog = React15.forwardRef(({ className, open, onClose, title, description, variant = "info", actions, ...props }, ref) => {
   const icons = {
     info: /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(Info, {
-      className: "h-5 w-5 text-blue-400"
+      className: "h-5 w-5 text-blue-600 dark:text-blue-400"
     }, undefined, false, undefined, this),
     success: /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(CircleCheckBig, {
-      className: "h-5 w-5 text-green-400"
+      className: "h-5 w-5 text-green-600 dark:text-green-500"
     }, undefined, false, undefined, this),
     warning: /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(TriangleAlert, {
-      className: "h-5 w-5 text-yellow-400"
+      className: "h-5 w-5 text-amber-600 dark:text-amber-500"
     }, undefined, false, undefined, this),
     error: /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(CircleX, {
-      className: "h-5 w-5 text-red-400"
+      className: "h-5 w-5 text-red-600 dark:text-red-500"
     }, undefined, false, undefined, this)
   };
   return /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(Dialog, {
     open,
     onClose,
-    className: cn("max-w-md", className),
+    className: cn("max-w-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100", className),
     ...props,
     children: [
       /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(DialogHeader, {
-        className: "flex items-start gap-3",
+        className: "flex items-start gap-3 bg-white dark:bg-gray-900",
         children: [
           icons[variant],
           /* @__PURE__ */ jsx_dev_runtime23.jsxDEV("div", {
             children: [
               /* @__PURE__ */ jsx_dev_runtime23.jsxDEV("h3", {
-                className: "text-lg font-semibold",
+                className: "text-lg font-semibold text-gray-900 dark:text-gray-100",
                 children: title
               }, undefined, false, undefined, this),
               description && /* @__PURE__ */ jsx_dev_runtime23.jsxDEV("p", {
-                className: "mt-1 text-sm text-gray-400",
+                className: "mt-1 text-sm text-gray-600 dark:text-gray-300",
                 children: description
               }, undefined, false, undefined, this)
             ]
@@ -57611,7 +57700,7 @@ var AlertDialog = React15.forwardRef(({ className, open, onClose, title, descrip
         ]
       }, undefined, true, undefined, this),
       actions && /* @__PURE__ */ jsx_dev_runtime23.jsxDEV(DialogContent, {
-        className: "flex justify-end gap-3",
+        className: "flex justify-end gap-3 bg-gray-50 dark:bg-gray-900",
         children: actions
       }, undefined, false, undefined, this)
     ]
@@ -58181,6 +58270,7 @@ toast.promise(promise, {
 
 // src/components/tooltip/Tooltip.tsx
 var React18 = __toESM(require_react(), 1);
+var import_react_dom = __toESM(require_react_dom(), 1);
 var jsx_dev_runtime28 = __toESM(require_jsx_dev_runtime(), 1);
 var Tooltip = ({
   content: content2,
@@ -58189,25 +58279,68 @@ var Tooltip = ({
   className
 }) => {
   const [isVisible, setIsVisible] = React18.useState(false);
-  const positionClasses = {
-    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2",
-    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2"
-  };
-  return /* @__PURE__ */ jsx_dev_runtime28.jsxDEV("div", {
-    className: "relative inline-block",
+  const triggerRef = React18.useRef(null);
+  const tooltipRef = React18.useRef(null);
+  const [tooltipPosition, setTooltipPosition] = React18.useState({ top: 0, left: 0 });
+  const updatePosition = React18.useCallback(() => {
+    if (!triggerRef.current || !tooltipRef.current)
+      return;
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
+    let top2 = 0;
+    let left = 0;
+    switch (position) {
+      case "top":
+        top2 = triggerRect.top + scrollY - tooltipRect.height - 8;
+        left = triggerRect.left + scrollX + (triggerRect.width - tooltipRect.width) / 2;
+        break;
+      case "right":
+        top2 = triggerRect.top + scrollY + (triggerRect.height - tooltipRect.height) / 2;
+        left = triggerRect.right + scrollX + 8;
+        break;
+      case "bottom":
+        top2 = triggerRect.bottom + scrollY + 8;
+        left = triggerRect.left + scrollX + (triggerRect.width - tooltipRect.width) / 2;
+        break;
+      case "left":
+        top2 = triggerRect.top + scrollY + (triggerRect.height - tooltipRect.height) / 2;
+        left = triggerRect.left + scrollX - tooltipRect.width - 8;
+        break;
+    }
+    setTooltipPosition({ top: top2, left });
+  }, [position]);
+  React18.useEffect(() => {
+    if (isVisible) {
+      updatePosition();
+      window.addEventListener("scroll", updatePosition);
+      window.addEventListener("resize", updatePosition);
+      return () => {
+        window.removeEventListener("scroll", updatePosition);
+        window.removeEventListener("resize", updatePosition);
+      };
+    }
+  }, [isVisible, updatePosition]);
+  return /* @__PURE__ */ jsx_dev_runtime28.jsxDEV(jsx_dev_runtime28.Fragment, {
     children: [
       /* @__PURE__ */ jsx_dev_runtime28.jsxDEV("div", {
+        ref: triggerRef,
         onMouseEnter: () => setIsVisible(true),
         onMouseLeave: () => setIsVisible(false),
+        className: "inline-block",
         children
       }, undefined, false, undefined, this),
-      isVisible && /* @__PURE__ */ jsx_dev_runtime28.jsxDEV("div", {
-        className: cn("absolute z-50 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-xs text-gray-100", positionClasses[position], className),
-        style: { zIndex: ZINDEX.tooltip },
+      isVisible && import_react_dom.createPortal(/* @__PURE__ */ jsx_dev_runtime28.jsxDEV("div", {
+        ref: tooltipRef,
+        className: cn("absolute whitespace-normal rounded-md px-3 py-2 text-sm shadow-lg max-w-xs", "bg-white dark:bg-gray-800", "text-gray-900 dark:text-gray-100", "border border-gray-200 dark:border-gray-700", className),
+        style: {
+          zIndex: ZINDEX.tooltip,
+          top: tooltipPosition.top,
+          left: tooltipPosition.left
+        },
         children: content2
-      }, undefined, false, undefined, this)
+      }, undefined, false, undefined, this), document.body)
     ]
   }, undefined, true, undefined, this);
 };
@@ -58243,14 +58376,14 @@ var TooltipPage = () => {
         code: `import { Tooltip } from "av1-c";
 
 const MyComponent = () => (
-  <Tooltip content="This is a tooltip">
+  <Tooltip content="Simple tooltip">
     <Button>Hover me</Button>
   </Tooltip>
 );`,
         children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("div", {
           className: "flex gap-4",
           children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(Tooltip, {
-            content: "This is a tooltip",
+            content: "Simple tooltip",
             children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(Button, {
               children: "Hover me"
             }, undefined, false, undefined, this)
@@ -58282,14 +58415,58 @@ const MyComponent = () => (
             className: "grid grid-cols-2 gap-4",
             children: [
               /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(ComponentDemo, {
-                title: "Positions",
-                description: "Different tooltip positions",
-                code: `<div className="space-x-4">
-  <Tooltip content="Top" position="top">
+                title: "Custom Content",
+                description: "Tooltip with rich content",
+                code: `<Tooltip 
+  content={
+    <div className="space-y-2">
+      <h3 className="font-semibold">Custom Content</h3>
+      <p>Tooltip with rich content including multiple paragraphs and formatting.</p>
+      <p className="text-gray-500 dark:text-gray-400">
+        Supporting text with different styles
+      </p>
+    </div>
+  }
+>
+  <Button>Rich Content</Button>
+</Tooltip>`,
+                children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(Tooltip, {
+                  content: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("div", {
+                    className: "space-y-2",
+                    children: [
+                      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("h3", {
+                        className: "font-semibold",
+                        children: "Custom Content"
+                      }, undefined, false, undefined, this),
+                      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("p", {
+                        children: "Tooltip with rich content including multiple paragraphs and formatting."
+                      }, undefined, false, undefined, this),
+                      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("p", {
+                        className: "text-gray-500 dark:text-gray-400",
+                        children: "Supporting text with different styles"
+                      }, undefined, false, undefined, this)
+                    ]
+                  }, undefined, true, undefined, this),
+                  children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(Button, {
+                    children: "Rich Content"
+                  }, undefined, false, undefined, this)
+                }, undefined, false, undefined, this)
+              }, undefined, false, undefined, this),
+              /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(ComponentDemo, {
+                title: "Different Positions",
+                description: "Tooltips can be positioned in different directions",
+                code: `<div className="flex gap-4">
+  <Tooltip content="Top tooltip" position="top">
     <Button>Top</Button>
   </Tooltip>
-  <Tooltip content="Right" position="right">
+  <Tooltip content="Right tooltip" position="right">
     <Button>Right</Button>
+  </Tooltip>
+  <Tooltip content="Bottom tooltip" position="bottom">
+    <Button>Bottom</Button>
+  </Tooltip>
+  <Tooltip content="Left tooltip" position="left">
+    <Button>Left</Button>
   </Tooltip>
 </div>`,
                 children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("div", {
@@ -58325,38 +58502,6 @@ const MyComponent = () => (
                     }, undefined, false, undefined, this)
                   ]
                 }, undefined, true, undefined, this)
-              }, undefined, false, undefined, this),
-              /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(ComponentDemo, {
-                title: "Custom Content",
-                description: "Tooltip with rich content",
-                code: `<Tooltip
-  content={
-    <div className="space-y-1">
-      <p className="font-semibold">Title</p>
-      <p className="text-xs">Description</p>
-    </div>
-  }
->
-  <Button>Rich Content</Button>
-</Tooltip>`,
-                children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(Tooltip, {
-                  content: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("div", {
-                    className: "space-y-1",
-                    children: [
-                      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("p", {
-                        className: "font-semibold",
-                        children: "Feature Info"
-                      }, undefined, false, undefined, this),
-                      /* @__PURE__ */ jsx_dev_runtime29.jsxDEV("p", {
-                        className: "text-xs",
-                        children: "Click to learn more about this feature"
-                      }, undefined, false, undefined, this)
-                    ]
-                  }, undefined, true, undefined, this),
-                  children: /* @__PURE__ */ jsx_dev_runtime29.jsxDEV(Button, {
-                    children: "Rich Content"
-                  }, undefined, false, undefined, this)
-                }, undefined, false, undefined, this)
               }, undefined, false, undefined, this)
             ]
           }, undefined, true, undefined, this)
@@ -58370,15 +58515,11 @@ const MyComponent = () => (
 var React19 = __toESM(require_react(), 1);
 var jsx_dev_runtime30 = __toESM(require_jsx_dev_runtime(), 1);
 var Select = React19.forwardRef(({ className, children, ...props }, ref) => {
-  return /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("div", {
-    className: "absolute w-full rounded-md bg-gray-800 mt-1 shadow-lg",
-    style: { zIndex: ZINDEX.select },
-    children: /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("select", {
-      ref,
-      className: cn("flex h-9 w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50", className),
-      ...props,
-      children
-    }, undefined, false, undefined, this)
+  return /* @__PURE__ */ jsx_dev_runtime30.jsxDEV("select", {
+    ref,
+    className: cn("flex h-9 w-full rounded-md px-3 py-1 text-sm shadow-sm transition-colors", "bg-white border-gray-200 text-gray-900", "dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100", "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500", "disabled:cursor-not-allowed disabled:opacity-50", className),
+    ...props,
+    children
   }, undefined, false, undefined, this);
 });
 Select.displayName = "Select";
@@ -58853,24 +58994,14 @@ var React21 = __toESM(require_react(), 1);
 var jsx_dev_runtime36 = __toESM(require_jsx_dev_runtime(), 1);
 var ThemeToggle = () => {
   const [isDark, setIsDark] = React21.useState(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored) {
-      return stored === "dark";
-    }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (typeof window === "undefined")
+      return false;
+    return document.documentElement.classList.contains("dark");
   });
-  React21.useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, []);
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    if (!isDark) {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    if (newTheme) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
@@ -59381,8 +59512,18 @@ var NavMenu = ({
         setIsOpen(false);
       }
     };
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+      setIsOpen(false);
+    };
   }, []);
   return /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("div", {
     className: "relative",
@@ -59400,7 +59541,7 @@ var NavMenu = ({
       }, undefined, true, undefined, this),
       isOpen && /* @__PURE__ */ jsx_dev_runtime42.jsxDEV("div", {
         className: cn("absolute right-0 mt-2 w-48 rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5", className),
-        style: { zIndex: ZINDEX.navMenu },
+        style: { zIndex: ZINDEX.dropdown },
         children
       }, undefined, false, undefined, this)
     ]
@@ -61669,18 +61810,18 @@ var import_react17 = __toESM(require_react(), 1);
 var import_react18 = __toESM(require_react(), 1);
 var import_react19 = __toESM(require_react(), 1);
 var le2 = { wrapper: { display: "flex", position: "relative", textAlign: "initial" }, fullWidth: { width: "100%" }, hide: { display: "none" } };
-var v = le2;
+var v2 = le2;
 var ae = { container: { display: "flex", height: "100%", width: "100%", justifyContent: "center", alignItems: "center" } };
 var Y2 = ae;
 function Me({ children: e2 }) {
   return import_react13.default.createElement("div", { style: Y2.container }, e2);
 }
-var Z = Me;
-var $2 = Z;
-function Ee({ width: e2, height: r2, isEditorReady: n2, loading: t3, _ref: a2, className: m2, wrapperProps: E }) {
-  return import_react12.default.createElement("section", { style: { ...v.wrapper, width: e2, height: r2 }, ...E }, !n2 && import_react12.default.createElement($2, null, t3), import_react12.default.createElement("div", { ref: a2, style: { ...v.fullWidth, ...!n2 && v.hide }, className: m2 }));
+var Z2 = Me;
+var $2 = Z2;
+function Ee2({ width: e2, height: r2, isEditorReady: n2, loading: t3, _ref: a2, className: m2, wrapperProps: E }) {
+  return import_react12.default.createElement("section", { style: { ...v2.wrapper, width: e2, height: r2 }, ...E }, !n2 && import_react12.default.createElement($2, null, t3), import_react12.default.createElement("div", { ref: a2, style: { ...v2.fullWidth, ...!n2 && v2.hide }, className: m2 }));
 }
-var ee = Ee;
+var ee = Ee2;
 var H2 = import_react11.memo(ee);
 function Ce(e2) {
   import_react14.useEffect(e2, []);
@@ -61693,12 +61834,12 @@ function he2(e2, r2, n2 = true) {
   } : e2, r2);
 }
 var l3 = he2;
-function D() {
+function D2() {
 }
 function h3(e2, r2, n2, t3) {
-  return De(e2, t3) || be2(e2, r2, n2, t3);
+  return De2(e2, t3) || be2(e2, r2, n2, t3);
 }
-function De(e2, r2) {
+function De2(e2, r2) {
   return e2.editor.getModel(te2(e2, r2));
 }
 function be2(e2, r2, n2, t3) {
@@ -61707,8 +61848,8 @@ function be2(e2, r2, n2, t3) {
 function te2(e2, r2) {
   return e2.Uri.parse(r2);
 }
-function Oe({ original: e2, modified: r2, language: n2, originalLanguage: t3, modifiedLanguage: a2, originalModelPath: m2, modifiedModelPath: E, keepCurrentOriginalModel: g2 = false, keepCurrentModifiedModel: N = false, theme: x2 = "light", loading: P2 = "Loading...", options: y2 = {}, height: V2 = "100%", width: z = "100%", className: F2, wrapperProps: j3 = {}, beforeMount: A2 = D, onMount: q = D }) {
-  let [M2, O] = import_react10.useState(false), [T2, s2] = import_react10.useState(true), u3 = import_react10.useRef(null), c3 = import_react10.useRef(null), w = import_react10.useRef(null), d2 = import_react10.useRef(q), o2 = import_react10.useRef(A2), b2 = import_react10.useRef(false);
+function Oe({ original: e2, modified: r2, language: n2, originalLanguage: t3, modifiedLanguage: a2, originalModelPath: m2, modifiedModelPath: E, keepCurrentOriginalModel: g2 = false, keepCurrentModifiedModel: N = false, theme: x2 = "light", loading: P2 = "Loading...", options: y2 = {}, height: V2 = "100%", width: z = "100%", className: F2, wrapperProps: j3 = {}, beforeMount: A2 = D2, onMount: q2 = D2 }) {
+  let [M2, O2] = import_react10.useState(false), [T2, s2] = import_react10.useState(true), u3 = import_react10.useRef(null), c3 = import_react10.useRef(null), w = import_react10.useRef(null), d2 = import_react10.useRef(q2), o2 = import_react10.useRef(A2), b2 = import_react10.useRef(false);
   k2(() => {
     let i2 = loader_default.init();
     return i2.then((f3) => (c3.current = f3) && s2(false)).catch((f3) => f3?.type !== "cancelation" && console.error("Monaco initialization: error:", f3)), () => u3.current ? I() : i2.cancel();
@@ -61742,7 +61883,7 @@ function Oe({ original: e2, modified: r2, language: n2, originalLanguage: t3, mo
     let i2 = h3(c3.current, e2 || "", t3 || n2 || "text", m2 || ""), f3 = h3(c3.current, r2 || "", a2 || n2 || "text", E || "");
     u3.current?.setModel({ original: i2, modified: f3 });
   }, [n2, r2, a2, e2, t3, m2, E]), U2 = import_react10.useCallback(() => {
-    !b2.current && w.current && (u3.current = c3.current.editor.createDiffEditor(w.current, { automaticLayout: true, ...y2 }), L2(), c3.current?.editor.setTheme(x2), O(true), b2.current = true);
+    !b2.current && w.current && (u3.current = c3.current.editor.createDiffEditor(w.current, { automaticLayout: true, ...y2 }), L2(), c3.current?.editor.setTheme(x2), O2(true), b2.current = true);
   }, [y2, x2, L2]);
   import_react10.useEffect(() => {
     M2 && d2.current(u3.current, c3.current);
@@ -61765,8 +61906,8 @@ function He(e2) {
 }
 var se = He;
 var _2 = new Map;
-function Ve({ defaultValue: e2, defaultLanguage: r2, defaultPath: n2, value: t3, language: a2, path: m2, theme: E = "light", line: g2, loading: N = "Loading...", options: x2 = {}, overrideServices: P2 = {}, saveViewState: y2 = true, keepCurrentModel: V2 = false, width: z = "100%", height: F2 = "100%", className: j3, wrapperProps: A2 = {}, beforeMount: q = D, onMount: M2 = D, onChange: O, onValidate: T2 = D }) {
-  let [s2, u3] = import_react18.useState(false), [c3, w] = import_react18.useState(true), d2 = import_react18.useRef(null), o2 = import_react18.useRef(null), b2 = import_react18.useRef(null), L2 = import_react18.useRef(M2), U2 = import_react18.useRef(q), I = import_react18.useRef(), i2 = import_react18.useRef(t3), f3 = se(m2), Q2 = import_react18.useRef(false), B = import_react18.useRef(false);
+function Ve({ defaultValue: e2, defaultLanguage: r2, defaultPath: n2, value: t3, language: a2, path: m2, theme: E = "light", line: g2, loading: N = "Loading...", options: x2 = {}, overrideServices: P2 = {}, saveViewState: y2 = true, keepCurrentModel: V2 = false, width: z = "100%", height: F2 = "100%", className: j3, wrapperProps: A2 = {}, beforeMount: q2 = D2, onMount: M2 = D2, onChange: O2, onValidate: T2 = D2 }) {
+  let [s2, u3] = import_react18.useState(false), [c3, w] = import_react18.useState(true), d2 = import_react18.useRef(null), o2 = import_react18.useRef(null), b2 = import_react18.useRef(null), L2 = import_react18.useRef(M2), U2 = import_react18.useRef(q2), I = import_react18.useRef(), i2 = import_react18.useRef(t3), f3 = se(m2), Q2 = import_react18.useRef(false), B = import_react18.useRef(false);
   k2(() => {
     let p2 = loader_default.init();
     return p2.then((R) => (d2.current = R) && w(false)).catch((R) => R?.type !== "cancelation" && console.error("Monaco initialization: error:", R)), () => o2.current ? pe2() : p2.cancel();
@@ -61797,15 +61938,15 @@ function Ve({ defaultValue: e2, defaultLanguage: r2, defaultPath: n2, value: t3,
   }, [s2]), import_react18.useEffect(() => {
     !c3 && !s2 && X2();
   }, [c3, s2, X2]), i2.current = t3, import_react18.useEffect(() => {
-    s2 && O && (I.current?.dispose(), I.current = o2.current?.onDidChangeModelContent((p2) => {
-      B.current || O(o2.current.getValue(), p2);
+    s2 && O2 && (I.current?.dispose(), I.current = o2.current?.onDidChangeModelContent((p2) => {
+      B.current || O2(o2.current.getValue(), p2);
     }));
-  }, [s2, O]), import_react18.useEffect(() => {
+  }, [s2, O2]), import_react18.useEffect(() => {
     if (s2) {
       let p2 = d2.current.editor.onDidChangeMarkers((R) => {
-        let G = o2.current.getModel()?.uri;
-        if (G && R.find((J2) => J2.path === G.path)) {
-          let J2 = d2.current.editor.getModelMarkers({ resource: G });
+        let G2 = o2.current.getModel()?.uri;
+        if (G2 && R.find((J2) => J2.path === G2.path)) {
+          let J2 = d2.current.editor.getModelMarkers({ resource: G2 });
           T2?.(J2);
         }
       });
@@ -63085,6 +63226,21 @@ var App = () => {
   return /* @__PURE__ */ jsx_dev_runtime58.jsxDEV("div", {
     className: "min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100",
     children: [
+      /* @__PURE__ */ jsx_dev_runtime58.jsxDEV(De, {
+        position: "bottom-right",
+        toastOptions: {
+          style: {
+            background: "#1f2937",
+            color: "#fff"
+          },
+          success: {
+            duration: 3000
+          },
+          error: {
+            duration: 4000
+          }
+        }
+      }, undefined, false, undefined, this),
       /* @__PURE__ */ jsx_dev_runtime58.jsxDEV(Header, {
         children: /* @__PURE__ */ jsx_dev_runtime58.jsxDEV(HeaderContent, {
           children: [

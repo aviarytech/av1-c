@@ -30,6 +30,7 @@ import { CodePage } from "./pages/components/CodePage";
 import { AccordionPage } from "./pages/components/AccordionPage";
 import { CodeEditorPage } from "./pages/components/CodeEditorPage";
 import { FeaturesPage } from "./pages/FeaturesPage";
+import { Toaster } from 'react-hot-toast';
 
 export const App = () => {
   const [currentPage, setCurrentPage] = React.useState("getting-started");
@@ -91,6 +92,21 @@ export const App = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: '#1f2937',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 4000,
+          },
+        }}
+      />
       <Header>
         <HeaderContent>
           <Title level={3} className="text-blue-600 dark:text-blue-400">AV1-C</Title>
