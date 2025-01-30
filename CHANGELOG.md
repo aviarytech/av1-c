@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/aviarytech/av1-c/compare/v1.5.0...v1.6.0) (2025-01-30)
+
+
+### Features
+
+* **c:** updates ([7745489](https://github.com/aviarytech/av1-c/commit/77454897b39fde1fe9f7eaf88f3f930ca88b855f))
+
 # [1.5.0](https://github.com/aviarytech/av1-c/compare/v1.4.0...v1.5.0) (2025-01-30)
 
 
