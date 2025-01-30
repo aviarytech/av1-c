@@ -22,7 +22,7 @@ jobs:
         run: bun install
 
       - name: Build
-        run: npm run build
+        run: bun run build
 
       - name: Release
         env:
