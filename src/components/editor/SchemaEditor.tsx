@@ -1,7 +1,7 @@
 import { useState, FormEvent, useEffect, useCallback } from 'react';
 import { ChevronLeft, PlusCircle, Code, Trash2 } from 'lucide-react';
 import * as jsonld from 'jsonld';
-import { Context as ContextType, FormProperty, FormPropertyPath, FormData } from '../../types/schema';
+import { Context as ContextType, FormProperty, FormPropertyPath, FormData, JsonSchema, JsonSchemaProperty } from '../../types/schema';
 import { generateExampleCredential, toPascalCase } from '../../utils/schemaUtils';
 import { CodeEditor } from '../editor/CodeEditor';
 import FieldComponent from './FieldComponent';
@@ -17,10 +17,10 @@ interface Errors {
 }
 
 interface SchemaEditorProps {
-  /** Initial form data */
-  initialData?: FormData;
+  /** Initial schema data */
+  initialData?: JsonSchema;
   /** Callback when schema is submitted */
-  onSubmit?: (schema: any) => void;
+  onSubmit?: (schema: JsonSchema) => void;
   /** Callback when schema validation status changes */
   onValidationChange?: (isValid: boolean) => void;
 }
@@ -42,23 +42,85 @@ export function SchemaEditor({
   onSubmit,
   onValidationChange 
 }: SchemaEditorProps) {
-  const [formData, setFormData] = useState<FormData>(initialData || { 
-    title: '', 
-    $comment: '', 
-    allowId: false, 
-    properties: {} 
+  // Add this helper function to convert JsonSchemaProperty to FormProperty
+  const convertJsonSchemaToFormProperty = (prop: JsonSchemaProperty): FormProperty => {
+    const type = prop.type as 'string' | 'number' | 'boolean' | 'object' | 'array';
+    return {
+      title: prop.title,
+      type,
+      $comment: prop.$comment,
+      required: false, // We'll handle required fields separately
+      example: prop.example,
+      ...(prop.properties && {
+        properties: Object.entries(prop.properties).reduce<{ [key: string]: FormProperty }>(
+          (acc, [key, value]) => ({
+            ...acc,
+            [key]: convertJsonSchemaToFormProperty(value)
+          }),
+          {}
+        )
+      }),
+      ...(prop.items && {
+        items: Array.isArray(prop.items)
+          ? prop.items.map(convertJsonSchemaToFormProperty)
+          : convertJsonSchemaToFormProperty(prop.items)
+      }),
+      minItems: prop.minItems,
+      maxItems: prop.maxItems,
+      uniqueItems: prop.uniqueItems
+    };
+  };
+
+  // Convert initialData (JsonSchema) to FormData when initializing state
+  const [formData, setFormData] = useState<FormData>(() => {
+    if (initialData) {
+      const properties = initialData.properties.credentialSubject.properties || {};
+      const required = initialData.properties.credentialSubject.required || [];
+      
+      // Convert properties and mark required fields
+      const convertedProperties = Object.entries(properties).reduce<{ [key: string]: FormProperty }>(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: {
+            ...convertJsonSchemaToFormProperty(value),
+            required: required.includes(key)
+          }
+        }),
+        {}
+      );
+
+      return {
+        title: initialData.title,
+        $comment: initialData.$comment || '',
+        allowId: !!initialData.properties.id,
+        properties: convertedProperties
+      };
+    }
+    return { 
+      title: '', 
+      $comment: '', 
+      allowId: false, 
+      properties: {} 
+    };
   });
   const [errors, setErrors] = useState<Errors>({});
   const [isJsonView, setIsJsonView] = useState(false);
   const [jsonInput, setJsonInput] = useState('');
   const [jsonError, setJsonError] = useState<string | null>(null);
-  const [contexts, setContexts] = useState<ContextType[]>([
-    {
+  const [contexts, setContexts] = useState<ContextType[]>(() => {
+    if (initialData?.properties['@context']?.prefixItems) {
+      return initialData.properties['@context'].prefixItems.map(item => ({
+        uri: item.const,
+        prefix: item.const.split('/').pop()?.replace('.json', '') || '',
+        description: ''
+      }));
+    }
+    return [{
       uri: 'https://www.w3.org/ns/credentials/v2',
       prefix: 'vc',
       description: 'W3C Verifiable Credentials v2'
-    }
-  ]);
+    }];
+  });
   const [normalizedView, setNormalizedView] = useState(false);
   const [normalizedData, setNormalizedData] = useState<string>('');
   const [normalizationStatus, setNormalizationStatus] = useState<NormalizationStatus>('none');
@@ -71,6 +133,18 @@ export function SchemaEditor({
   } | null>(null);
   const [previewData, setPreviewData] = useState<any>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState(false);
+
+  // Add the copyToClipboard function here inside the component
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopyFeedback(true);
+      setTimeout(() => setCopyFeedback(false), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+    }
+  };
 
   // First, memoize convertFormToProperties
   const convertFormToProperties = useCallback((properties: { [key: string]: FormProperty }): { [key: string]: any } => {
@@ -164,7 +238,8 @@ export function SchemaEditor({
           prefixItems: [
             { type: 'string', const: 'VerifiableCredential' },
             { type: 'string', const: toPascalCase(formData.title) }
-          ]
+          ],
+          maxItems: 2
         },
         credentialSubject: {
           type: 'object',
@@ -441,13 +516,20 @@ export function SchemaEditor({
               setJsonInput(value || '');
               try {
                 const parsedJson = JSON.parse(value || '');
-                // Validate required schema structure
                 if (!parsedJson.properties?.credentialSubject) {
                   setJsonError('Schema must include a credentialSubject property');
                   return;
                 }
                 
-                // Update form data if valid
+                // Update contexts from pasted JSON
+                if (parsedJson.properties['@context']?.prefixItems) {
+                  setContexts(parsedJson.properties['@context'].prefixItems.map((item: { type: string; const: string }) => ({
+                    uri: item.const,
+                    prefix: item.const.split('/').pop()?.replace('.json', '') || '',
+                    description: ''
+                  })));
+                }
+                
                 const convertedFormData = {
                   title: parsedJson.title || '',
                   $comment: parsedJson.$comment || '',
@@ -861,7 +943,22 @@ export function SchemaEditor({
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 dark:text-gray-300 mb-2">JSON Schema</label>
+                      <div className="flex justify-between items-center mb-2">
+                        <label className="block text-gray-700 dark:text-gray-300">JSON Schema</label>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard(jsonInput)}
+                          className={`inline-flex items-center justify-center gap-2 px-3 py-1.5 text-sm
+                                   ${copyFeedback 
+                                     ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30' 
+                                     : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700'}
+                                   border rounded-md
+                                   hover:bg-gray-50 dark:hover:bg-gray-800 
+                                   transition-colors duration-200`}
+                        >
+                          {copyFeedback ? 'Copied!' : 'Copy JSON'}
+                        </button>
+                      </div>
                       <div className="h-[600px] border border-gray-300 dark:border-gray-700 rounded-md">
                         <Editor
                           height="100%"
@@ -876,6 +973,15 @@ export function SchemaEditor({
                                 return;
                               }
                               
+                              // Update contexts from pasted JSON
+                              if (parsedJson.properties['@context']?.prefixItems) {
+                                setContexts(parsedJson.properties['@context'].prefixItems.map((item: { type: string; const: string }) => ({
+                                  uri: item.const,
+                                  prefix: item.const.split('/').pop()?.replace('.json', '') || '',
+                                  description: ''
+                                })));
+                              }
+                              
                               const convertedFormData = {
                                 title: parsedJson.title || '',
                                 $comment: parsedJson.$comment || '',
@@ -888,6 +994,54 @@ export function SchemaEditor({
                             } catch (error) {
                               setJsonError('Invalid JSON format');
                             }
+                          }}
+                          beforeMount={(monaco) => {
+                            // Configure JSON schema validation
+                            monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                              validate: true,
+                              schemas: [{
+                                uri: "schema.json",
+                                fileMatch: ["*"],
+                                schema: {
+                                  type: "object",
+                                  required: ["title", "type", "properties"],
+                                  properties: {
+                                    title: { type: "string" },
+                                    $comment: { type: "string" },
+                                    type: { type: "string", const: "object" },
+                                    properties: {
+                                      type: "object",
+                                      required: ["credentialSubject"],
+                                      properties: {
+                                        credentialSubject: {
+                                          type: "object",
+                                          required: ["type", "properties"],
+                                          properties: {
+                                            type: { type: "string", const: "object" },
+                                            properties: { 
+                                              type: "object",
+                                              additionalProperties: {
+                                                type: "object",
+                                                required: ["type", "title"],
+                                                properties: {
+                                                  type: { 
+                                                    type: "string", 
+                                                    enum: ["string", "number", "boolean", "object", "array"] 
+                                                  },
+                                                  title: { type: "string" },
+                                                  $comment: { type: "string" },
+                                                  required: { type: "boolean" }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }]
+                            });
                           }}
                           options={{
                             minimap: { enabled: false },

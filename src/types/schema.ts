@@ -74,9 +74,10 @@ export type FormPropertyPath = (number | 'properties' | 'items')[];
  */
 export interface FormData {
   title: string;
-  $comment?: string;
-  allowId?: boolean;
+  $comment: string;
+  allowId: boolean;
   properties: { [key: string]: FormProperty };
+  contexts?: string[];
 }
 
 export interface Context {
