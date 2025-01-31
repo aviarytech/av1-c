@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/aviarytech/av1-c/compare/v1.9.0...v1.9.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* **c:** export input ([b3de1ef](https://github.com/aviarytech/av1-c/commit/b3de1efcdf8c083de4d128fcda13520c0627461c))
+
 # [1.9.0](https://github.com/aviarytech/av1-c/compare/v1.8.2...v1.9.0) (2025-01-31)
 
 
