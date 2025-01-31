@@ -32,9 +32,6 @@ export { Checkbox } from './components/checkbox/Checkbox';
 // Textarea
 export { Textarea } from './components/textarea/Textarea';
 
-// Form
-export { FormField } from './components/form/FormField';
-
 // Navigation
 export { Breadcrumb } from './components/navigation/Breadcrumb';
 
@@ -92,4 +89,10 @@ export type {
   FormProperty, 
   FormPropertyPath, 
   FormData 
-} from './types/schema'; 
+} from './types/schema';
+
+// Input
+export { Input } from './components/input/Input';
+
+// Form
+export { FormField } from './components/form/FormField'; 
