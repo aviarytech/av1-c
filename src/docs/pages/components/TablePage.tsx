@@ -3,6 +3,7 @@ import { ComponentDemo } from "../../components/ComponentDemo";
 import { PropsTable } from "../../components/PropsTable";
 import { Table } from "../../../components/table/Table";
 import { Title } from "../../../components/typography/Title";
+import { Badge } from "../../../components/badge/Badge";
 
 export const TablePage = () => {
   const tableProps = [
@@ -88,11 +89,15 @@ const MyComponent = () => (
   <Table.Body>
     <Table.Row>
       <Table.Cell>
-        <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded-full text-xs">
-          Active
-        </span>
+        <Badge variant="success">Active</Badge>
       </Table.Cell>
       <Table.Cell className="font-mono">$1,234.56</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Badge variant="warning">Pending</Badge>
+      </Table.Cell>
+      <Table.Cell className="font-mono">$567.89</Table.Cell>
     </Table.Row>
   </Table.Body>
 </Table>`}
@@ -107,17 +112,13 @@ const MyComponent = () => (
               <Table.Body>
                 <Table.Row>
                   <Table.Cell>
-                    <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded-full text-xs">
-                      Active
-                    </span>
+                    <Badge variant="success">Active</Badge>
                   </Table.Cell>
                   <Table.Cell className="font-mono">$1,234.56</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    <span className="bg-amber-500/20 text-amber-300 px-2 py-1 rounded-full text-xs">
-                      Pending
-                    </span>
+                    <Badge variant="warning">Pending</Badge>
                   </Table.Cell>
                   <Table.Cell className="font-mono">$567.89</Table.Cell>
                 </Table.Row>

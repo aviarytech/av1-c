@@ -32,6 +32,7 @@ import { CodeEditorPage } from "./pages/components/CodeEditorPage";
 import { FeaturesPage } from "./pages/FeaturesPage";
 import { Toaster } from 'react-hot-toast';
 import { SchemaEditorPage } from "./pages/features/SchemaEditorPage";
+import { BadgePage } from "./pages/components/BadgePage";
 
 export const App = () => {
   const [currentPage, setCurrentPage] = React.useState(() => {
@@ -118,6 +119,8 @@ export const App = () => {
         return <CodeEditorPage />;
       case "schema-editor":
         return <SchemaEditorPage />;
+      case "badge":
+        return <BadgePage />;
       default:
         return <GettingStartedPage />;
     }
