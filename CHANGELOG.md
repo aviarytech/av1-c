@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/aviarytech/av1-c/compare/v1.8.2...v1.9.0) (2025-01-31)
+
+
+### Features
+
+* **c:** update some, add badge ([e2455c2](https://github.com/aviarytech/av1-c/commit/e2455c26be5aa2cad30825ebd6d557b4f06c5d70))
+
 ## [1.8.2](https://github.com/aviarytech/av1-c/compare/v1.8.1...v1.8.2) (2025-01-30)
 
 
