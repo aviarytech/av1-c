@@ -1,3 +1,10 @@
+## [1.9.3](https://github.com/aviarytech/av1-c/compare/v1.9.2...v1.9.3) (2025-02-01)
+
+
+### Bug Fixes
+
+* **c:** schema editor ([831c973](https://github.com/aviarytech/av1-c/commit/831c973b436722bc96c1639b509d21b18cd6bd5e))
+
 ## [1.9.2](https://github.com/aviarytech/av1-c/compare/v1.9.1...v1.9.2) (2025-02-01)
 
 
