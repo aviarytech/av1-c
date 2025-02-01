@@ -23,6 +23,18 @@ export const SchemaEditorPage = () => {
     },
   ];
 
+  const handleSchemaSubmit = (schema: any) => {
+    try {
+      // Validate schema structure before logging
+      if (schema && typeof schema === 'object') {
+        console.log('Schema created:', schema);
+      }
+    } catch (error) {
+      // Silently handle any errors without showing them to the user
+      console.debug('Schema processing error:', error);
+    }
+  };
+
   return (
     <div className="space-y-12">
       <div>
@@ -42,6 +54,7 @@ function MySchemaBuilder() {
   return (
     <SchemaEditor
       onSubmit={(schema) => {
+        // Handle schema submission
         console.log('Schema created:', schema);
       }}
     />
@@ -50,7 +63,31 @@ function MySchemaBuilder() {
           >
             <div className="w-full">
               <SchemaEditor 
-                onSubmit={(schema) => console.log('Schema created:', schema)}
+                onSubmit={handleSchemaSubmit}
+                // Add initial schema to prevent validation errors
+                initialData={{
+                  title: "Example Schema",
+                  type: "object",
+                  properties: {
+                    '@context': {
+                      type: "string",
+                      items: { type: "string" },
+                      prefixItems: [{ type: "string", const: "https://www.w3.org/ns/credentials/v2" }],
+                    },
+                    type: {
+                      type: "string",
+                      items: { type: "string" },
+                      prefixItems: [{ type: "string", const: "VerifiableCredential" }],
+                    },
+                    credentialSubject: {
+                      type: "object",
+                      properties: {
+                        name: { type: "string", title: "Name" },
+                      },
+                    },
+                  },
+                  required: []
+                }}
               />
             </div>
           </ComponentDemo>

@@ -9,6 +9,10 @@ import { Button } from "../../../components/button/Button";
 export const DialogPage = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+  const [sizeDemo, setSizeDemo] = React.useState<{
+    open: boolean;
+    size?: 'sm' | 'default' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full';
+  }>({ open: false });
 
   const dialogProps = [
     {
@@ -27,6 +31,12 @@ export const DialogPage = () => {
       name: "className",
       type: "string",
       description: "Additional CSS classes",
+    },
+    {
+      name: "size",
+      type: "'sm' | 'default' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full'",
+      defaultValue: "default",
+      description: "Controls the maximum width of the dialog",
     },
   ];
 
@@ -66,7 +76,11 @@ const MyComponent = () => {
         Open Dialog
       </Button>
       
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog 
+        open={isOpen} 
+        onClose={() => setIsOpen(false)}
+        size="default"
+      >
         <DialogHeader>
           <h2>Dialog Title</h2>
         </DialogHeader>
@@ -108,6 +122,67 @@ const MyComponent = () => {
         <Title level={3}>Properties</Title>
         <div className="mt-4">
           <PropsTable props={dialogProps} />
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <Title level={3}>Sizes</Title>
+        <p className="text-gray-400">
+          The Dialog component comes in different sizes to accommodate various content needs.
+        </p>
+        <div className="grid grid-cols-2 gap-4">
+          {(['sm', 'default', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', 'full'] as const).map((size) => (
+            <div key={size} className="flex items-center gap-4">
+              <Button
+                onClick={() => setSizeDemo({ open: true, size })}
+                variant="outline"
+                className="w-32 justify-start"
+              >
+                <span className="font-mono text-sm">{size}</span>
+              </Button>
+              <span className="text-sm text-gray-400">
+                {size === 'sm' && 'Small (384px)'}
+                {size === 'default' && 'Default (512px)'}
+                {size === 'lg' && 'Large (576px)'}
+                {size === 'xl' && 'Extra Large (672px)'}
+                {size === '2xl' && 'Double Extra Large (768px)'}
+                {size === '3xl' && 'Triple Extra Large (896px)'}
+                {size === '4xl' && 'Quadruple Extra Large (1024px)'}
+                {size === '5xl' && 'Quintuple Extra Large (1152px)'}
+                {size === 'full' && 'Full Width'}
+              </span>
+            </div>
+          ))}
+
+          <Dialog 
+            open={sizeDemo.open} 
+            onClose={() => setSizeDemo({ open: false })}
+            size={sizeDemo.size}
+          >
+            <DialogHeader>
+              <h2 className="text-xl font-semibold">
+                {sizeDemo.size} Dialog
+              </h2>
+            </DialogHeader>
+            <DialogContent>
+              <div className="space-y-4">
+                <p className="text-gray-400">
+                  This is an example of a dialog with the <code className="text-blue-400">{sizeDemo.size}</code> size variant.
+                </p>
+                <div className="h-40 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                  <span className="text-gray-400">Content Area</span>
+                </div>
+                <div className="flex justify-end gap-3">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setSizeDemo({ open: false })}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
