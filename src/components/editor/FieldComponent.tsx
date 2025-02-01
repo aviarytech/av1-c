@@ -29,7 +29,7 @@ const FieldComponent: React.FC<FieldComponentProps> = ({
     <div className="flex items-center gap-2">
       <div className="flex-grow">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-200">{field.title}</span>
+          <span className="font-medium">{field.title}</span>
           {field.required && (
             <span className="text-red-400 text-sm" title="Required field">*</span>
           )}
@@ -41,7 +41,7 @@ const FieldComponent: React.FC<FieldComponentProps> = ({
                 className="text-gray-400 hover:text-gray-300 cursor-help" 
               />
               <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block">
-                <div className="bg-gray-900 text-gray-200 text-sm rounded px-2 py-1 whitespace-nowrap">
+                <div className="bg-gray-900 text-sm rounded px-2 py-1 whitespace-nowrap">
                   {field.$comment}
                 </div>
               </div>

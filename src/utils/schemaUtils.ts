@@ -39,7 +39,7 @@ export const generateExampleCredential = (schema: any): any => {
     'type': schema.properties.type.prefixItems.map((item: any) => item.const),
     ...(schema.properties.id && { 'id': 'urn:uuid:example-credential-id' }),
     'issuer': 'did:example:issuer',
-    'issuanceDate': new Date().toISOString(),
+    'validFrom': new Date().toISOString(),
     'credentialSubject': credentialSubject
   };
 };
@@ -135,7 +135,7 @@ export function jsonSchemaToFormData(schema: JsonSchema): FormData {
 
   return {
     title: schema.title,
-    $comment: schema.$comment,
+    $comment: schema.$comment || '',
     allowId: 'id' in schema.properties,
     properties: convertProperties(
       schema.properties.credentialSubject.properties,

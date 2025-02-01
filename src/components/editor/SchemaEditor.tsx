@@ -9,11 +9,12 @@ import { AddFieldModal } from './AddFieldModal';
 import { ContextChipInput } from './ContextChipInput';
 import Editor from '@monaco-editor/react';
 import { Tabs, Tab, TabPanel } from "../../components/tabs/Tabs";
+import { Button } from '../button/Button';
 
 interface Errors {
   title?: string;
   properties?: string;
-  submit?: string;
+  submit?: string | JSX.Element;
 }
 
 interface SchemaEditorProps {
@@ -263,7 +264,23 @@ export function SchemaEditor({
     // Check normalization status first
     if (normalizationStatus === 'invalid') {
       setErrors({ 
-        submit: 'Cannot create schema: JSON-LD normalization failed. Please check your schema structure.' 
+        submit: (
+          <>
+            Cannot create schema: JSON-LD normalization failed. Please check your schema structure.{' '}
+            <button
+              type="button"
+              onClick={() => {
+                if (!contexts.some(ctx => ctx.uri === DEV_CONTEXT.uri)) {
+                  setContexts([...contexts, DEV_CONTEXT]);
+                  setErrors({}); // Clear errors after adding context
+                }
+              }}
+              className="text-blue-500 hover:text-blue-400 underline"
+            >
+              Add development context?
+            </button>
+          </>
+        ) as unknown as string
       });
       return;
     }
@@ -657,8 +674,9 @@ export function SchemaEditor({
               {property.type === 'object' && (
                 <div className="ml-8 mt-2 border-l-2 border-gray-600 pl-4">
                   {property.properties && renderProperties(property.properties, [...currentPath, 'properties'])}
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => {
                       setCurrentParentPath([...currentPath, 'properties']);
                       setIsAddFieldModalOpen(true);
@@ -669,7 +687,7 @@ export function SchemaEditor({
                   >
                     <PlusCircle size={16} />
                     Add Field
-                  </button>
+                  </Button>
                 </div>
               )}
               {property.type === 'array' && property.items && (
@@ -694,19 +712,18 @@ export function SchemaEditor({
         })}
         
         {path.length === 0 && (
-          <button
-            type="button"
+          <Button
+            variant="default"
+            size="sm"
             onClick={() => {
               setCurrentParentPath([]);
               setIsAddFieldModalOpen(true);
             }}
-            className="flex items-center gap-2 bg-blue-500/20 text-blue-300 
-                     border border-blue-500/30 hover:bg-blue-500/30 
-                     px-4 py-2 rounded transition-colors"
+            className="flex gap-2"
           >
             <PlusCircle size={18} />
             Add Field
-          </button>
+          </Button>
         )}
         
         <AddFieldModal
