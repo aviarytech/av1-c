@@ -13,6 +13,8 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface TabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Value that identifies the tab */
   value: string;
+  /** Type of button */
+  type?: "button" | "submit" | "reset";
 }
 
 interface TabPanelProps extends React.HTMLAttributes<HTMLDivElement> {

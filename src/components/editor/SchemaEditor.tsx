@@ -10,6 +10,7 @@ import { ContextChipInput } from './ContextChipInput';
 import Editor from '@monaco-editor/react';
 import { Tabs, Tab, TabPanel } from "../../components/tabs/Tabs";
 import { Button } from '../button/Button';
+import { Tooltip } from '../tooltip/Tooltip';
 
 interface Errors {
   title?: string;
@@ -854,8 +855,8 @@ export function SchemaEditor({
             {/* Tabs Section */}
             <div className="border-b border-gray-200 dark:border-gray-700">
               <Tabs defaultValue="form">
-                <Tab value="form">Form View</Tab>
-                <Tab value="json">JSON View</Tab>
+                <Tab value="form" type="button">Form View</Tab>
+                <Tab value="json" type="button">JSON View</Tab>
                 
                 <TabPanel value="form">
                   <div className="space-y-6">
@@ -888,12 +889,14 @@ export function SchemaEditor({
                     </div>
                     <div className="mb-4">
                       <label className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                        <input
-                          type="checkbox"
-                          checked={formData.allowId}
-                          onChange={(e) => setFormData({ ...formData, allowId: e.target.checked })}
-                          className="form-checkbox h-4 w-4 text-blue-500"
-                        />
+                        <Tooltip content="Enable ID field">
+                          <input
+                            type="checkbox"
+                            checked={formData.allowId}
+                            onChange={(e) => setFormData({ ...formData, allowId: e.target.checked })}
+                            className="form-checkbox h-4 w-4 text-blue-500"
+                          />
+                        </Tooltip>
                         <span>Allow ID field (URI format)</span>
                       </label>
                       <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
@@ -1097,10 +1100,14 @@ export function SchemaEditor({
                       <div className="w-2 h-2 rounded-full border-2 border-current border-t-transparent animate-spin" />
                     )}
                     {normalizationStatus === 'valid' && (
-                      <div className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-500" title="Valid JSON-LD" />
+                      <Tooltip content="Valid JSON-LD">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-500" />
+                      </Tooltip>
                     )}
                     {normalizationStatus === 'invalid' && (
-                      <div className="w-2 h-2 rounded-full bg-red-400 dark:bg-red-500" title="Invalid JSON-LD" />
+                      <Tooltip content="Invalid JSON-LD">
+                        <div className="w-2 h-2 rounded-full bg-red-400 dark:bg-red-500" />
+                      </Tooltip>
                     )}
                   </div>
                 </button>
@@ -1133,10 +1140,14 @@ export function SchemaEditor({
                     <div className="w-2 h-2 rounded-full border-2 border-current border-t-transparent animate-spin" />
                   )}
                   {normalizationStatus === 'valid' && (
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-500" title="Valid JSON-LD" />
+                    <Tooltip content="Valid JSON-LD">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-500" />
+                    </Tooltip>
                   )}
                   {normalizationStatus === 'invalid' && (
-                    <div className="w-2 h-2 rounded-full bg-red-400 dark:bg-red-500" title="Invalid JSON-LD" />
+                    <Tooltip content="Invalid JSON-LD">
+                      <div className="w-2 h-2 rounded-full bg-red-400 dark:bg-red-500" />
+                    </Tooltip>
                   )}
                   <span className="text-sm text-gray-500 dark:text-gray-400">
                     {normalizationStatus === 'valid' && 'Valid JSON-LD'}

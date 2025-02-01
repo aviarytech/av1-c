@@ -79,7 +79,7 @@ export function ContextChipInput({ contexts, onChange }: ContextChipInputProps) 
             </div>
             {hoveredIndex === index && (
               <div className="absolute left-0 bottom-full mb-2 z-50">
-                <div className="bg-gray-900 px-2 py-1 rounded text-xs whitespace-nowrap">
+                <div className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-xs whitespace-nowrap">
                   <div>{context.uri}</div>
                   {context.description && (
                     <div className="text-gray-400">{context.description}</div>

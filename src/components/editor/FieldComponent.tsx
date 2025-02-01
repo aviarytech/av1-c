@@ -41,7 +41,7 @@ const FieldComponent: React.FC<FieldComponentProps> = ({
                 className="text-gray-400 hover:text-gray-300 cursor-help" 
               />
               <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block">
-                <div className="bg-gray-900 text-sm rounded px-2 py-1 whitespace-nowrap">
+                <div className="text-sm rounded px-2 py-1 whitespace-nowrap">
                   {field.$comment}
                 </div>
               </div>
