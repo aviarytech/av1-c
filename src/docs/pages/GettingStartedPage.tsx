@@ -98,6 +98,65 @@ function App() {
 
       <Card>
         <Card.Header>
+          <Title level={2}>Theme Support</Title>
+        </Card.Header>
+        <Card.Content>
+          <div className="space-y-4">
+            <p className="text-gray-400">
+              AV1-C components automatically support both light and dark mode. For the best experience, wrap your application with the ThemeProvider:
+            </p>
+            <CodeEditor
+              value={`import { ThemeProvider } from 'av1-c';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <YourComponents />
+    </ThemeProvider>
+  );
+}`}
+              language="typescript"
+            />
+            
+            <p className="text-gray-400 mt-4">
+              The ThemeProvider respects user system preferences while also allowing manual theme selection:
+            </p>
+            
+            <CodeEditor
+              value={`import { useTheme } from 'av1-c';
+
+function ThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  
+  return (
+    <div>
+      <p>Current theme: {theme}</p>
+      <p>Resolved theme: {resolvedTheme}</p>
+      
+      <button onClick={() => setTheme('light')}>Light</button>
+      <button onClick={() => setTheme('dark')}>Dark</button>
+      <button onClick={() => setTheme('system')}>System</button>
+    </div>
+  );
+}`}
+              language="typescript"
+            />
+            
+            <p className="text-gray-400 mt-4">
+              The ThemeProvider offers three theme options:
+            </p>
+            
+            <ul className="list-disc list-inside text-gray-400 space-y-2">
+              <li><code className="text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">light</code> - Forces light mode</li>
+              <li><code className="text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">dark</code> - Forces dark mode</li>
+              <li><code className="text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">system</code> - Follows the user's system preference (default)</li>
+            </ul>
+          </div>
+        </Card.Content>
+      </Card>
+
+      <Card>
+        <Card.Header>
           <Title level={2}>Need Help?</Title>
         </Card.Header>
         <Card.Content>

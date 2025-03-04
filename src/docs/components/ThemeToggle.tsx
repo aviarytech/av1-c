@@ -1,24 +1,16 @@
 import * as React from "react";
 import { Button } from "../../components/button/Button";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Monitor } from "lucide-react";
+import { useTheme } from "../../ThemeProvider";
 
 export const ThemeToggle = () => {
-  const [isDark, setIsDark] = React.useState(() => {
-    if (typeof window === 'undefined') return false;
-    return document.documentElement.classList.contains('dark');
-  });
+  const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    
-    if (newTheme) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    // Cycle through theme options: light -> dark -> system -> light
+    if (theme === 'light') setTheme('dark');
+    else if (theme === 'dark') setTheme('system');
+    else setTheme('light');
   };
 
   return (
@@ -27,11 +19,14 @@ export const ThemeToggle = () => {
       size="sm"
       onClick={toggleTheme}
       className="ml-auto"
+      title={`Current theme: ${theme}`}
     >
-      {isDark ? (
+      {theme === 'light' ? (
         <Sun className="h-5 w-5" />
-      ) : (
+      ) : theme === 'dark' ? (
         <Moon className="h-5 w-5" />
+      ) : (
+        <Monitor className="h-5 w-5" />
       )}
     </Button>
   );

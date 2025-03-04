@@ -32,7 +32,7 @@ export const FeaturesPage = () => {
               <li>Nested objects and arrays</li>
               <li>Field descriptions and validation</li>
               <li>JSON-LD context management</li>
-              <li>Dark mode support</li>
+              <li>Intelligent dark/light mode with system preference detection</li>
               <li>TypeScript integration</li>
             </ul>
           </div>
