@@ -4,6 +4,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { javascript } from '@codemirror/lang-javascript';
 import { json } from '@codemirror/lang-json';
+import { useTheme } from "../../ThemeProvider";
 
 export interface CodeEditorProps {
   value: string;
@@ -39,12 +40,16 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
     }
   };
 
+  // Get the current theme to determine if we should use the dark theme
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  
   return (
-    <div className={cn("rounded-lg overflow-hidden border border-gray-700", className)}>
+    <div className={cn("rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700", className)}>
       <CodeMirror
         value={value}
         height={height}
-        theme={oneDark}
+        theme={isDark ? oneDark : undefined}
         extensions={[...getLanguageExtension(), ...extensions]}
         onChange={onChange}
         editable={!readOnly}

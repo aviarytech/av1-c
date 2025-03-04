@@ -116,6 +116,18 @@ const MyComponent = () => (
               </Card.Footer>
             </Card>
           </ComponentDemo>
+          
+          <ComponentDemo
+            title="Plain Card"
+            description="Card with direct content (no Card.Content)"
+            code={`<Card>
+  Direct content with no Card.Content wrapper
+</Card>`}
+          >
+            <Card className="w-full">
+              Direct content without using Card.Content
+            </Card>
+          </ComponentDemo>
         </div>
       </section>
     </div>

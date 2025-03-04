@@ -4,16 +4,35 @@ import { cn } from "../../utils/cn";
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        "rounded-lg border shadow-xl overflow-hidden",
-        className
-      )}
-      {...props}
-    />
-  )
+  ({ className, children, ...props }, ref) => {
+    // Get all child elements
+    const childArray = React.Children.toArray(children);
+    
+    // Check if any child is a CardHeader or CardContent component
+    const hasCardComponents = childArray.some(child => 
+      React.isValidElement(child) && 
+      (child.type === CardHeader || 
+       child.type === CardContent || 
+       child.type === CardFooter)
+    );
+    
+    // Add padding if there are no Card subcomponents (direct content)
+    const needsPadding = !hasCardComponents;
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl overflow-hidden",
+          needsPadding && "p-6",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
 );
 Card.displayName = "Card";
 
@@ -49,7 +68,7 @@ export const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-gray-400", className)}
+    className={cn("text-sm text-gray-500 dark:text-gray-400", className)}
     {...props}
   />
 ));
@@ -67,7 +86,7 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       className={cn(
-        "border-t border-gray-700 p-4 bg-gray-850 flex justify-between items-center",
+        "border-t border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-800 flex justify-between items-center",
         className
       )}
       {...props}

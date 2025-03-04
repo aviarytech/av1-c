@@ -13,10 +13,10 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
   ({ className, variant = "default", title, description, onClose, ...props }, ref) => {
     const variantStyles = {
-      default: "bg-gray-800 border-gray-700",
-      success: "bg-green-500/10 border-green-500/20 text-green-300",
-      error: "bg-red-500/10 border-red-500/20 text-red-300",
-      warning: "bg-yellow-500/10 border-yellow-500/20 text-yellow-300",
+      default: "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100",
+      success: "bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/20 text-green-700 dark:text-green-300",
+      error: "bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-300",
+      warning: "bg-yellow-50 dark:bg-yellow-500/10 border-yellow-200 dark:border-yellow-500/20 text-yellow-700 dark:text-yellow-300",
     };
 
     return (

@@ -33,8 +33,11 @@ import { FeaturesPage } from "./pages/FeaturesPage";
 import { Toaster } from 'react-hot-toast';
 import { SchemaEditorPage } from "./pages/features/SchemaEditorPage";
 import { BadgePage } from "./pages/components/BadgePage";
+import { ThemeProvider, useTheme } from "../ThemeProvider";
 
-export const App = () => {
+// Wrapper component that uses the theme context
+const AppContent = () => {
+  const { resolvedTheme } = useTheme();
   const [currentPage, setCurrentPage] = React.useState(() => {
     // First try to get page from URL hash
     const hashPage = window.location.hash.slice(1);
@@ -132,8 +135,10 @@ export const App = () => {
         position="bottom-right"
         toastOptions={{
           style: {
-            background: '#1f2937',
-            color: '#fff',
+            background: resolvedTheme === 'dark' ? '#1f2937' : '#ffffff',
+            color: resolvedTheme === 'dark' ? '#fff' : '#000',
+            border: '1px solid',
+            borderColor: resolvedTheme === 'dark' ? '#374151' : '#e5e7eb',
           },
           success: {
             duration: 3000,
@@ -178,3 +183,12 @@ export const App = () => {
     </div>
   );
 }; 
+
+// Main App component with ThemeProvider
+export const App = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+};

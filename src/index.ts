@@ -76,6 +76,9 @@ export { Title } from './components/typography/Title';
 // Documentation
 export { App as DocsApp } from './docs/App';
 
+// Theme
+export { ThemeProvider, useTheme } from './ThemeProvider';
+
 // Accordion
 export { Accordion } from './components/accordion/Accordion';
 
