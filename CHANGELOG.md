@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/aviarytech/av1-c/compare/v1.9.3...v1.10.0) (2025-03-04)
+
+
+### Features
+
+* dark mode ([869534d](https://github.com/aviarytech/av1-c/commit/869534df9f6e10dd61a5ffdc7e48d3bedee0c258))
+
 ## [1.9.3](https://github.com/aviarytech/av1-c/compare/v1.9.2...v1.9.3) (2025-02-01)
 
 
