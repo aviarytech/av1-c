@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Menu, Transition, Portal } from "@headlessui/react";
+import { Menu, Transition, Portal, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import { cn } from "../../utils/cn";
-import { ZINDEX } from "../../utils/z-index";
 
 export interface DropdownProps {
   trigger: React.ReactNode;
@@ -38,8 +37,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <Menu as="div" 
-      open={isControlled ? controlledOpen : undefined}
-      onChange={(open) => isControlled && onOpenChange?.(open)}
+      data-open={isControlled ? controlledOpen : undefined}
     >
       {({ open: menuOpen }) => {
         // Handle controlled state changes
@@ -53,7 +51,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         return (
           <div className="relative inline-block text-left">
             <div ref={buttonRef}>
-              <Menu.Button 
+              <MenuButton 
                 className="inline-flex cursor-pointer"
                 onClick={() => {
                   updatePosition(true);
@@ -63,7 +61,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 }}
               >
                 {trigger}
-              </Menu.Button>
+              </MenuButton>
             </div>
 
             <Portal>
@@ -83,7 +81,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                   }
                 }}
               >
-                <Menu.Items
+                <MenuItems
                   className={cn(
                     "fixed rounded-lg shadow-lg",
                     "bg-white dark:bg-gray-800",
@@ -102,7 +100,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                   static
                 >
                   {children}
-                </Menu.Items>
+                </MenuItems>
               </Transition>
             </Portal>
           </div>
@@ -122,7 +120,7 @@ export interface DropdownItemProps {
 export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
   ({ children, asChild = false, className, onClick }, ref) => {
     return (
-      <Menu.Item>
+      <MenuItem>
         {({ active }) => {
           if (asChild) {
             const child = React.Children.only(children) as React.ReactElement;
@@ -158,7 +156,7 @@ export const DropdownItem = React.forwardRef<HTMLDivElement, DropdownItemProps>(
             </button>
           );
         }}
-      </Menu.Item>
+      </MenuItem>
     );
   }
 );
