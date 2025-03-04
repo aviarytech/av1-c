@@ -6,9 +6,11 @@ import { ZINDEX } from "../../utils/z-index";
 export interface DropdownProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
-  align?: "left" | "right";
+  align?: "left" | "right" | "end";
   direction?: "up" | "down";
   className?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -17,6 +19,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   align = "left",
   direction = "down",
   className,
+  open: controlledOpen,
+  onOpenChange,
 }) => {
   const buttonRef = React.useRef<HTMLDivElement>(null);
 
@@ -30,54 +34,80 @@ export const Dropdown: React.FC<DropdownProps> = ({
     document.documentElement.style.setProperty('--by', `${window.innerHeight - rect.top + 8}px`);
   }, []);
 
-  return (
-    <Menu>
-      {({ open }) => (
-        <div className="relative inline-block text-left">
-          <div ref={buttonRef}>
-            <Menu.Button 
-              className="inline-flex cursor-pointer"
-              onClick={() => updatePosition(true)}
-            >
-              {trigger}
-            </Menu.Button>
-          </div>
+  const isControlled = controlledOpen !== undefined;
 
-          <Portal>
-            <Transition
-              show={open}
-              enter="transition duration-100 ease-out"
-              enterFrom="transform scale-95 opacity-0"
-              enterTo="transform scale-100 opacity-100"
-              leave="transition duration-75 ease-out"
-              leaveFrom="transform scale-100 opacity-100"
-              leaveTo="transform scale-95 opacity-0"
-              beforeEnter={() => updatePosition(true)}
-              afterLeave={() => updatePosition(false)}
-            >
-              <Menu.Items
-                className={cn(
-                  "fixed rounded-lg shadow-lg",
-                  "bg-white dark:bg-gray-800",
-                  "border border-gray-200 dark:border-gray-700",
-                  "focus:outline-none",
-                  "min-w-[8rem] py-1",
-                  "z-[100]",
-                  className
-                )}
-                style={{
-                  left: align === "left" ? "var(--x)" : "unset",
-                  right: align === "right" ? "var(--rx)" : "unset",
-                  top: direction === "down" ? "var(--y)" : "unset",
-                  bottom: direction === "up" ? "var(--by)" : "unset",
+  return (
+    <Menu as="div" 
+      open={isControlled ? controlledOpen : undefined}
+      onChange={(open) => isControlled && onOpenChange?.(open)}
+    >
+      {({ open: menuOpen }) => {
+        // Handle controlled state changes
+        const isOpen = isControlled ? controlledOpen : menuOpen;
+        React.useEffect(() => {
+          if (isControlled && isOpen !== controlledOpen) {
+            onOpenChange?.(isOpen);
+          }
+        }, [isOpen, controlledOpen, isControlled]);
+
+        return (
+          <div className="relative inline-block text-left">
+            <div ref={buttonRef}>
+              <Menu.Button 
+                className="inline-flex cursor-pointer"
+                onClick={() => {
+                  updatePosition(true);
+                  if (isControlled) {
+                    onOpenChange?.(!controlledOpen);
+                  }
                 }}
               >
-                {children}
-              </Menu.Items>
-            </Transition>
-          </Portal>
-        </div>
-      )}
+                {trigger}
+              </Menu.Button>
+            </div>
+
+            <Portal>
+              <Transition
+                show={isOpen}
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+                beforeEnter={() => updatePosition(true)}
+                afterLeave={() => {
+                  updatePosition(false);
+                  if (isControlled) {
+                    onOpenChange?.(false);
+                  }
+                }}
+              >
+                <Menu.Items
+                  className={cn(
+                    "fixed rounded-lg shadow-lg",
+                    "bg-white dark:bg-gray-800",
+                    "border border-gray-200 dark:border-gray-700",
+                    "focus:outline-none",
+                    "min-w-[8rem] py-1",
+                    "z-[100]",
+                    className
+                  )}
+                  style={{
+                    left: align === "left" ? "var(--x)" : align === "end" ? "unset" : "unset",
+                    right: align === "right" ? "var(--rx)" : align === "end" ? "16px" : "unset",
+                    top: direction === "down" ? "var(--y)" : "unset",
+                    bottom: direction === "up" ? "var(--by)" : "unset",
+                  }}
+                  static
+                >
+                  {children}
+                </Menu.Items>
+              </Transition>
+            </Portal>
+          </div>
+        );
+      }}
     </Menu>
   );
 };

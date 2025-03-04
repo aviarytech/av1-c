@@ -12,7 +12,94 @@
     --foreground: 210 40% 98%;
   }
 
+  /* Color themes */
+  .theme-blue {
+    --theme-primary: 221 83% 60%;   /* blue-primary */
+    --theme-secondary: 213 94% 68%; /* blue-secondary */
+    --theme-background: 213 100% 97%; /* blue-background */
+    --theme-text: 226 71% 33%;      /* blue-text */
+    --theme-accent: 220 90% 53%;    /* blue-accent */
+  }
+
+  .theme-green {
+    --theme-primary: 159 81% 40%;   /* green-primary */
+    --theme-secondary: 158 64% 52%; /* green-secondary */
+    --theme-background: 152 76% 96%; /* green-background */
+    --theme-text: 162 75% 20%;      /* green-text */
+    --theme-accent: 158 85% 31%;    /* green-accent */
+  }
+
+  .theme-purple {
+    --theme-primary: 259 83% 64%;   /* purple-primary */
+    --theme-secondary: 258 90% 76%; /* purple-secondary */
+    --theme-background: 259 100% 97%; /* purple-background */
+    --theme-text: 271 81% 42%;      /* purple-text */
+    --theme-accent: 263 90% 58%;    /* purple-accent */
+  }
+
+  .theme-amber {
+    --theme-primary: 38 93% 50%;    /* amber-primary */
+    --theme-secondary: 43 96% 56%;  /* amber-secondary */
+    --theme-background: 48 100% 96%; /* amber-background */
+    --theme-text: 33 100% 31%;      /* amber-text */
+    --theme-accent: 35 91% 44%;     /* amber-accent */
+  }
+
   body {
     @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  }
+
+  /* Apply theme colors - using direct color values to avoid tailwind class issues */
+  .theme-blue body {
+    background-color: #eff6ff;
+    color: #1e3a8a;
+  }
+
+  .theme-green body {
+    background-color: #ecfdf5;
+    color: #065f46;
+  }
+
+  .theme-purple body {
+    background-color: #f5f3ff;
+    color: #5b21b6;
+  }
+
+  .theme-amber body {
+    background-color: #fffbeb;
+    color: #92400e;
+  }
+
+  /* Style buttons and UI elements based on theme - using direct color values */
+  .theme-blue button[data-variant="default"] {
+    background-color: #3b82f6;
+    color: white;
+  }
+  .theme-blue button[data-variant="default"]:hover {
+    background-color: #2563eb;
+  }
+
+  .theme-green button[data-variant="default"] {
+    background-color: #10b981;
+    color: white;
+  }
+  .theme-green button[data-variant="default"]:hover {
+    background-color: #059669;
+  }
+
+  .theme-purple button[data-variant="default"] {
+    background-color: #8b5cf6;
+    color: white;
+  }
+  .theme-purple button[data-variant="default"]:hover {
+    background-color: #7c3aed;
+  }
+
+  .theme-amber button[data-variant="default"] {
+    background-color: #f59e0b;
+    color: white;
+  }
+  .theme-amber button[data-variant="default"]:hover {
+    background-color: #d97706;
   }
 } 

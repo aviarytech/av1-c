@@ -129,8 +129,10 @@ const AppContent = () => {
     }
   };
 
+  const { theme, colorTheme } = useTheme();
+      
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen">
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -150,7 +152,7 @@ const AppContent = () => {
       />
       <Header>
         <HeaderContent>
-          <Title level={3} className="text-blue-600 dark:text-blue-400">AV1-C</Title>
+          <Title level={3} className={colorTheme ? `text-${colorTheme}-primary` : 'text-blue-600 dark:text-blue-400'}>AV1-C</Title>
           <div className="ml-auto flex items-center gap-4">
             <ThemeToggle />
             <Button
@@ -187,7 +189,7 @@ const AppContent = () => {
 // Main App component with ThemeProvider
 export const App = () => {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTheme="light">
       <AppContent />
     </ThemeProvider>
   );
