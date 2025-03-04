@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/aviarytech/av1-c/compare/v1.10.0...v1.11.0) (2025-03-04)
+
+
+### Bug Fixes
+
+* dropdown lint ([09c8646](https://github.com/aviarytech/av1-c/commit/09c86468fb132835df062b69a04b7365e235af93))
+
+
+### Features
+
+* defaultTheme prop  for ThemeProvider ([faace7d](https://github.com/aviarytech/av1-c/commit/faace7df62cdc5abb2a710a6d78081888935bb60))
+
 # [1.10.0](https://github.com/aviarytech/av1-c/compare/v1.9.3...v1.10.0) (2025-03-04)
 
 
