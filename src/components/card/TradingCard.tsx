@@ -200,6 +200,71 @@ export const TradingCard = React.forwardRef<HTMLDivElement, TradingCardProps>(
       };
     }, [enable3D, handleMovement, resetCardPosition]);
     
+    // Determine if we're in dark mode by checking for the .dark class on html
+    const isDarkMode = typeof document !== 'undefined' && 
+      document.documentElement.classList.contains('dark');
+    
+    // Handle custom colors in dark mode
+    const isCustomBorderColor = borderColor !== "#4299e1";
+    const isCustomBackgroundColor = backgroundColor !== "#ebf8ff";
+    
+    // For custom colors, darken them in dark mode but preserve their hue
+    const darkModeBorderColor = isDarkMode 
+      ? isCustomBorderColor 
+        // If it's a custom color, darken it but preserve the hue
+        ? adjustColorForDarkMode(borderColor)
+        // Default dark blue for the default border
+        : "#1e40af" 
+      : borderColor;
+    
+    // For custom background colors, darken them significantly in dark mode
+    const darkModeBackgroundColor = isDarkMode 
+      ? isCustomBackgroundColor
+        // If it's a custom background, darken it but preserve the hue
+        ? adjustColorForDarkMode(backgroundColor, 0.3) // More darkening for backgrounds
+        // Default dark blue background
+        : "#0f172a" 
+      : backgroundColor;
+    
+    // Helper function to adjust colors for dark mode
+    function adjustColorForDarkMode(color: string, darkFactor = 0.6) {
+      // Simple color darkening for hex colors
+      if (color.startsWith('#')) {
+        // Convert hex to RGB
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        
+        // Darken the color
+        const darkenedR = Math.floor(r * darkFactor);
+        const darkenedG = Math.floor(g * darkFactor);
+        const darkenedB = Math.floor(b * darkFactor);
+        
+        // Convert back to hex
+        return `#${darkenedR.toString(16).padStart(2, '0')}${darkenedG.toString(16).padStart(2, '0')}${darkenedB.toString(16).padStart(2, '0')}`;
+      }
+      
+      return color;
+    }
+    
+    // Determine text colors based on background darkness
+    const isDarkBackground = isDarkMode || isColorDark(backgroundColor);
+    
+    // Helper function to determine if a color is dark
+    function isColorDark(color: string): boolean {
+      if (color.startsWith('#')) {
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        
+        // Calculate perceived brightness (YIQ formula)
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return yiq < 128; // Less than 128 is considered dark
+      }
+      
+      return false;
+    }
+    
     return (
       <div
         ref={(node) => {
@@ -219,32 +284,52 @@ export const TradingCard = React.forwardRef<HTMLDivElement, TradingCardProps>(
           className
         )}
         style={{
-          backgroundColor: backgroundColor,
-          boxShadow: `0 10px 30px -5px rgba(0, 0, 0, 0.3)`,
-          border: `8px solid ${borderColor}`,
+          backgroundColor: darkModeBackgroundColor,
+          boxShadow: isDarkMode 
+            ? `0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.1)` 
+            : `0 10px 30px -5px rgba(0, 0, 0, 0.3)`,
+          border: `8px solid ${darkModeBorderColor}`,
           transformStyle: 'preserve-3d',
         }}
         {...props}
       >
-        {/* Glare effect overlay */}
+        {/* Glare effect overlay - reduce intensity in dark mode */}
         <div 
           ref={glareRef}
           className="absolute inset-0 z-20 pointer-events-none"
           style={{ 
             borderRadius: 'inherit',
+            opacity: isDarkMode ? 0.7 : 1,
           }}
         />
         
         {/* Card header with title and attribute */}
-        <div className="flex justify-between items-center p-3 border-b border-gray-200 bg-white/90">
+        <div className={cn(
+          "flex justify-between items-center p-3 border-b",
+          isDarkMode || isDarkBackground
+            ? "border-gray-700 bg-gray-800/90 text-white" 
+            : "border-gray-200 bg-white/90 text-gray-900"
+        )}>
           <div>
-            <h3 className="font-bold text-lg">{title}</h3>
-            {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
+            <h3 className={cn(
+              "font-bold text-lg",
+              isDarkMode || isDarkBackground ? "text-white" : "text-gray-900"
+            )}>{title}</h3>
+            {subtitle && <p className={cn(
+              "text-xs",
+              isDarkMode || isDarkBackground ? "text-gray-300" : "text-gray-500"
+            )}>{subtitle}</p>}
           </div>
           {attributeValue && (
             <div className="flex items-center">
-              <span className="font-bold text-xl">{attributeValue}</span>
-              {attributeLabel && <span className="text-xs ml-1">{attributeLabel}</span>}
+              <span className={cn(
+                "font-bold text-xl",
+                isDarkMode || isDarkBackground ? "text-white" : "text-gray-900"
+              )}>{attributeValue}</span>
+              {attributeLabel && <span className={cn(
+                "text-xs ml-1",
+                isDarkMode || isDarkBackground ? "text-gray-300" : "text-gray-700"
+              )}>{attributeLabel}</span>}
             </div>
           )}
         </div>
@@ -256,20 +341,34 @@ export const TradingCard = React.forwardRef<HTMLDivElement, TradingCardProps>(
             backgroundImage: `url(${imageUrl})`,
             transform: 'translateZ(20px)', // 3D effect for the image
             transformStyle: 'preserve-3d',
+            backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc', // Subtle background for image area
           }}
         />
         
         {/* Card content */}
-        <div className="p-4 bg-white/90">
+        <div className={cn(
+          "p-4",
+          isDarkMode || isDarkBackground
+            ? "bg-gray-800/95 text-gray-100" 
+            : "bg-white/90 text-gray-800"
+        )}>
           {description && (
-            <p className="text-sm">{description}</p>
+            <p className={cn(
+              "text-sm",
+              isDarkMode || isDarkBackground ? "text-gray-200" : "text-gray-700"
+            )}>{description}</p>
           )}
           {children}
         </div>
         
         {/* Card footer */}
         {footer && (
-          <div className="absolute bottom-0 left-0 right-0 p-2 text-xs text-center bg-gray-100 border-t border-gray-200">
+          <div className={cn(
+            "absolute bottom-0 left-0 right-0 p-2 text-xs text-center border-t",
+            isDarkMode || isDarkBackground
+              ? "bg-gray-900 border-gray-700 text-gray-300" 
+              : "bg-gray-100 border-gray-200 text-gray-600"
+          )}>
             {footer}
           </div>
         )}

@@ -75,17 +75,23 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
     // Format issuance date
     const issuanceDate = new Date(credential.issuanceDate).toLocaleDateString();
     
-    // Determine border color based on verification status
+    // Determine if we're in dark mode
+    const isDarkMode = typeof document !== 'undefined' && 
+      document.documentElement.classList.contains('dark');
+    
+    // Determine border color based on verification status and dark mode
     const statusColor = !borderColor && credential.verificationStatus 
       ? credential.verificationStatus === 'verified' 
-        ? '#10b981' // Green for verified
+        ? isDarkMode ? '#059669' : '#10b981' // Green for verified
         : credential.verificationStatus === 'invalid' 
-          ? '#ef4444' // Red for invalid
-          : '#f59e0b' // Amber for unverified
+          ? isDarkMode ? '#b91c1c' : '#ef4444' // Red for invalid
+          : isDarkMode ? '#b45309' : '#f59e0b' // Amber for unverified
       : borderColor;
     
-    // Determine background color based on credential type
-    const typeColor = !backgroundColor ? 'rgba(236, 253, 245, 0.8)' : backgroundColor;
+    // Determine background color based on credential type and dark mode
+    const typeColor = !backgroundColor 
+      ? isDarkMode ? '#134e4a' : 'rgba(236, 253, 245, 0.8)' 
+      : backgroundColor;
     
     return (
       <TradingCard
@@ -102,19 +108,34 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
         {showVerificationStatus && credential.verificationStatus && (
           <div className="absolute top-3 right-3 z-10">
             {credential.verificationStatus === 'verified' && (
-              <div className="flex items-center bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+              <div className={cn(
+                "flex items-center text-xs px-2 py-1 rounded-full",
+                isDarkMode 
+                  ? "bg-green-900 text-green-100" 
+                  : "bg-green-100 text-green-800"
+              )}>
                 <CheckCircle className="w-3 h-3 mr-1" />
                 <span>Verified</span>
               </div>
             )}
             {credential.verificationStatus === 'invalid' && (
-              <div className="flex items-center bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+              <div className={cn(
+                "flex items-center text-xs px-2 py-1 rounded-full",
+                isDarkMode 
+                  ? "bg-red-900 text-red-100" 
+                  : "bg-red-100 text-red-800"
+              )}>
                 <AlertCircle className="w-3 h-3 mr-1" />
                 <span>Invalid</span>
               </div>
             )}
             {credential.verificationStatus === 'unverified' && (
-              <div className="flex items-center bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full">
+              <div className={cn(
+                "flex items-center text-xs px-2 py-1 rounded-full",
+                isDarkMode 
+                  ? "bg-amber-900 text-amber-100" 
+                  : "bg-amber-100 text-amber-800"
+              )}>
                 <Shield className="w-3 h-3 mr-1" />
                 <span>Unverified</span>
               </div>
@@ -129,8 +150,13 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
             
             return (
               <div key={prop} className="flex justify-between text-sm">
-                <span className="font-medium text-gray-600">{prop}:</span>
-                <span className="text-gray-900">
+                <span className={cn(
+                  "font-medium",
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                )}>{prop}:</span>
+                <span className={cn(
+                  isDarkMode ? "text-white" : "text-gray-900"
+                )}>
                   {typeof credential.credentialSubject[prop] === 'object'
                     ? JSON.stringify(credential.credentialSubject[prop])
                     : credential.credentialSubject[prop].toString()}
@@ -142,7 +168,12 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
         
         {/* Credential ID (truncated) */}
         {credential.id && (
-          <div className="mt-3 pt-2 border-t border-gray-200 text-xs text-gray-500 truncate">
+          <div className={cn(
+            "mt-3 pt-2 border-t text-xs truncate",
+            isDarkMode 
+              ? "border-gray-700 text-gray-400" 
+              : "border-gray-200 text-gray-500"
+          )}>
             ID: {credential.id}
           </div>
         )}
