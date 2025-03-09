@@ -51,6 +51,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
         { id: "accordion", label: "Accordion" },
         { id: "code-editor", label: "Code Editor" },
         { id: "badge", label: "Badge" },
+        { id: "trading-card", label: "Trading Card" },
       ],
     },
     {

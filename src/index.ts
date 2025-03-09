@@ -6,6 +6,8 @@ export { Skeleton } from './components/loading/Skeleton';
 
 // Card
 export { Card } from './components/card/Card';
+export { TradingCard } from './components/card/TradingCard';
+export { VerifiableCredentialCard } from './components/card/VerifiableCredentialCard';
 
 // Button
 export { Button } from './components/button/Button';

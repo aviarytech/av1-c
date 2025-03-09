@@ -34,6 +34,7 @@ import { Toaster } from 'react-hot-toast';
 import { SchemaEditorPage } from "./pages/features/SchemaEditorPage";
 import { BadgePage } from "./pages/components/BadgePage";
 import { ThemeProvider, useTheme } from "../ThemeProvider";
+import { TradingCardPage } from "./pages/components/TradingCardPage";
 
 // Wrapper component that uses the theme context
 const AppContent = () => {
@@ -124,6 +125,8 @@ const AppContent = () => {
         return <SchemaEditorPage />;
       case "badge":
         return <BadgePage />;
+      case "trading-card":
+        return <TradingCardPage />;
       default:
         return <GettingStartedPage />;
     }
