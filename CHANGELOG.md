@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/aviarytech/av1-c/compare/v1.12.0...v1.12.1) (2025-03-09)
+
+
+### Bug Fixes
+
+* dark mode for cards ([1fb21a2](https://github.com/aviarytech/av1-c/commit/1fb21a22e054dd967d1af63ee60b895c3e5be710))
+
 # [1.12.0](https://github.com/aviarytech/av1-c/compare/v1.11.0...v1.12.0) (2025-03-09)
 
 
