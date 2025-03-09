@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/aviarytech/av1-c/compare/v1.11.0...v1.12.0) (2025-03-09)
+
+
+### Features
+
+* trading card component ([c63e89e](https://github.com/aviarytech/av1-c/commit/c63e89ed3475d886ec342b7475b503a0480a9b5c))
+
 # [1.11.0](https://github.com/aviarytech/av1-c/compare/v1.10.0...v1.11.0) (2025-03-04)
 
 
