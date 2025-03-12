@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/aviarytech/av1-c/compare/v1.12.1...v1.12.2) (2025-03-12)
+
+
+### Bug Fixes
+
+* trading card styles ([d5237b6](https://github.com/aviarytech/av1-c/commit/d5237b6ffd3d2ba1733f83b74fc20bcc939e4774))
+
 ## [1.12.1](https://github.com/aviarytech/av1-c/compare/v1.12.0...v1.12.1) (2025-03-09)
 
 
