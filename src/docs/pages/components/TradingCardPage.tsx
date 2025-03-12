@@ -74,6 +74,30 @@ export const TradingCardPage = () => {
       description: "Glare effect intensity (0-1)",
       defaultValue: "0.25",
     },
+    {
+      name: "variant",
+      type: "'default' | 'fullArt'",
+      description: "Card variant style - default or full art",
+      defaultValue: "'default'",
+    },
+    {
+      name: "traits",
+      type: "{ name: string; value: string }[]",
+      description: "Array of traits to display in a grid layout at the bottom of the card",
+      defaultValue: "[]",
+    },
+    {
+      name: "borderThickness",
+      type: "'thin' | 'thick'",
+      description: "Border thickness - thin (2px) or thick (8px)",
+      defaultValue: "'thin'",
+    },
+    {
+      name: "imageFit",
+      type: "'contain' | 'cover' | 'scale-down'",
+      description: "Image fit style - contain (full image), cover (may crop), or scale-down (prevents stretching)",
+      defaultValue: "'scale-down'",
+    },
   ];
 
   const vcCardProps = [
@@ -136,6 +160,16 @@ export const TradingCardPage = () => {
     "verificationStatus": "verified"
   };
 
+  // Example traits for the trading card
+  const exampleTraits = [
+    { name: "Type", value: "Ice/Ghost" },
+    { name: "Level", value: "43" },
+    { name: "HP", value: "90" },
+    { name: "Attack", value: "Blizzard" },
+    { name: "Damage", value: "40" },
+    { name: "Weakness", value: "Fire" },
+  ];
+
   return (
     <div className="space-y-12">
       <ComponentDemo
@@ -152,6 +186,10 @@ const MyComponent = () => (
     attributeLabel="HP"
     description="This is a description of the card."
     footer="Card footer text"
+    traits={[
+      { name: "Type", value: "Normal" },
+      { name: "Level", value: "50" }
+    ]}
   />
 );`}
       >
@@ -164,6 +202,7 @@ const MyComponent = () => (
             attributeLabel="HP"
             description="When it finds humans or Pokémon it likes, it freezes them and takes them to its chilly den, where they become decorations."
             footer="NO. 0478 Snow Land Pokémon HT: 4'3 WT: 58.6 lbs."
+            traits={exampleTraits}
           />
         </div>
       </ComponentDemo>
@@ -174,6 +213,184 @@ const MyComponent = () => (
           <PropsTable props={tradingCardProps} />
         </div>
       </section>
+
+      <ComponentDemo
+        title="Full Art Variant"
+        description="A full art variant of the trading card with the image covering the entire card."
+        code={`import { TradingCard } from "av1-c";
+
+const MyComponent = () => (
+  <TradingCard
+    variant="fullArt"
+    imageUrl="https://example.com/image.jpg"
+    title="Full Art Card"
+    subtitle="Special Edition"
+    traits={[
+      { name: "Type", value: "Fire" },
+      { name: "Rarity", value: "Legendary" },
+      { name: "Attack", value: "Inferno" },
+      { name: "Defense", value: "Shield" }
+    ]}
+  />
+);`}
+      >
+        <div className="flex justify-center">
+          <TradingCard
+            variant="fullArt"
+            imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+            title="Charizard"
+            subtitle="Fire/Flying"
+            description="Charizard flies around the sky in search of powerful opponents. It breathes fire of such great heat that it melts anything. However, it never turns its fiery breath on any opponent weaker than itself."
+            traits={[
+              { name: "Type", value: "Fire/Flying" },
+              { name: "Level", value: "76" },
+              { name: "HP", value: "150" },
+              { name: "Attack", value: "Fire Blast" },
+              { name: "Damage", value: "120" },
+              { name: "Weakness", value: "Water" },
+            ]}
+          />
+        </div>
+      </ComponentDemo>
+
+      <ComponentDemo
+        title="Thick Border"
+        description="Trading card with a thicker border for a more traditional look."
+        code={`import { TradingCard } from "av1-c";
+
+const MyComponent = () => (
+  <TradingCard
+    imageUrl="https://example.com/image.jpg"
+    title="Thick Border Card"
+    borderThickness="thick"
+    borderColor="#e11d48"
+    traits={[
+      { name: "Type", value: "Water" },
+      { name: "Rarity", value: "Rare" }
+    ]}
+  />
+);`}
+      >
+        <div className="flex justify-center">
+          <TradingCard
+            imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png"
+            title="Blastoise"
+            subtitle="Water"
+            borderThickness="thick"
+            borderColor="#0ea5e9"
+            attributeValue={180}
+            attributeLabel="HP"
+            description="It crushes its foe under its heavy body to cause fainting. In a pinch, it will withdraw inside its shell."
+            traits={[
+              { name: "Type", value: "Water" },
+              { name: "Level", value: "80" },
+              { name: "Attack", value: "Hydro Pump" },
+              { name: "Defense", value: "High" },
+            ]}
+          />
+        </div>
+      </ComponentDemo>
+
+      <ComponentDemo
+        title="Image Fit Options"
+        description="Control how images are displayed with different fit options to prevent stretching or cropping."
+        code={`import { TradingCard } from "av1-c";
+
+// Three cards with different image fit options
+<div className="flex gap-4 flex-wrap">
+  <TradingCard
+    imageUrl="https://example.com/image.jpg"
+    title="Scale Down"
+    subtitle="Default - prevents stretching"
+    imageFit="scale-down"
+    traits={[{ name: "Fit", value: "Scale Down" }]}
+  />
+  <TradingCard
+    imageUrl="https://example.com/image.jpg"
+    title="Contain"
+    subtitle="Shows full image"
+    imageFit="contain"
+    traits={[{ name: "Fit", value: "Contain" }]}
+  />
+  <TradingCard
+    imageUrl="https://example.com/image.jpg"
+    title="Cover"
+    subtitle="May crop image"
+    imageFit="cover"
+    traits={[{ name: "Fit", value: "Cover" }]}
+  />
+</div>`}
+      >
+        <div className="flex flex-wrap gap-4 justify-center">
+          <TradingCard
+            imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            title="Scale Down"
+            subtitle="Default - prevents stretching"
+            imageFit="scale-down"
+            traits={[
+              { name: "Type", value: "Electric" },
+              { name: "Fit", value: "Scale Down" },
+            ]}
+          />
+          <TradingCard
+            imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            title="Contain"
+            subtitle="Shows full image"
+            imageFit="contain"
+            traits={[
+              { name: "Type", value: "Electric" },
+              { name: "Fit", value: "Contain" },
+            ]}
+          />
+          <TradingCard
+            imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            title="Cover"
+            subtitle="May crop image"
+            imageFit="cover"
+            traits={[
+              { name: "Type", value: "Electric" },
+              { name: "Fit", value: "Cover" },
+            ]}
+          />
+        </div>
+      </ComponentDemo>
+
+      <ComponentDemo
+        title="Traits Grid Layout"
+        description="Trading cards now display traits in a grid layout at the bottom of the card."
+        code={`import { TradingCard } from "av1-c";
+
+const MyComponent = () => (
+  <TradingCard
+    imageUrl="https://example.com/image.jpg"
+    title="Card with Traits"
+    subtitle="Grid Layout"
+    traits={[
+      { name: "Strength", value: "High" },
+      { name: "Speed", value: "Medium" },
+      { name: "Intelligence", value: "Very High" },
+      { name: "Stamina", value: "Medium" }
+    ]}
+  />
+);`}
+      >
+        <div className="flex justify-center">
+          <TradingCard
+            imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png"
+            title="Mewtwo"
+            subtitle="Psychic"
+            description="A Pokémon created by recombining Mew's genes. It's said to have the most savage heart among Pokémon."
+            traits={[
+              { name: "Type", value: "Psychic" },
+              { name: "Level", value: "100" },
+              { name: "HP", value: "200" },
+              { name: "Attack", value: "Psystrike" },
+              { name: "Damage", value: "150" },
+              { name: "Special", value: "Legendary" },
+            ]}
+          />
+        </div>
+      </ComponentDemo>
 
       <ComponentDemo
         title="Verifiable Credential Card"
@@ -228,6 +445,10 @@ const MyComponent = () => (
               attributeValue={150}
               attributeLabel="PWR"
               description="It hides in shadows. It is said that if Gengar is hiding, it cools the area by nearly 10 degrees Fahrenheit."
+              traits={[
+                { name: "Type", value: "Ghost/Poison" },
+                { name: "Ability", value: "Shadow Tag" },
+              ]}
             />
           </ComponentDemo>
 

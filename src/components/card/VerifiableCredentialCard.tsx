@@ -53,6 +53,8 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
     showVerificationStatus = true,
     borderColor,
     backgroundColor,
+    imageUrl: providedImageUrl,
+    cardSize = 'standard',
     ...props 
   }, ref) => {
     // Extract credential type (for subtitle)
@@ -63,8 +65,8 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
     // Extract title from credential subject
     const title = credential.credentialSubject[titleProperty] || 'Credential';
     
-    // Extract image URL
-    const imageUrl = credential.credentialSubject[imageProperty] || 
+    // Extract image URL - use provided imageUrl if available, otherwise use from credential
+    const imageUrl = providedImageUrl || credential.credentialSubject[imageProperty] || 
       'https://placehold.co/400x200/e2e8f0/64748b?text=Credential';
     
     // Format issuer information
@@ -93,6 +95,16 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
       ? isDarkMode ? '#134e4a' : 'rgba(236, 253, 245, 0.8)' 
       : backgroundColor;
     
+    // Create traits array from displayProperties
+    const traits = displayProperties
+      .filter(prop => credential.credentialSubject[prop] !== undefined)
+      .map(prop => ({
+        name: prop,
+        value: typeof credential.credentialSubject[prop] === 'object'
+          ? JSON.stringify(credential.credentialSubject[prop])
+          : String(credential.credentialSubject[prop])
+      }));
+    
     return (
       <TradingCard
         ref={ref}
@@ -102,11 +114,14 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
         borderColor={statusColor}
         backgroundColor={typeColor}
         footer={`Issued by ${issuerName} on ${issuanceDate}`}
+        imageUrl={imageUrl}
+        traits={traits}
+        cardSize={cardSize}
         {...props}
       >
         {/* Verification status badge */}
         {showVerificationStatus && credential.verificationStatus && (
-          <div className="absolute top-3 right-3 z-10">
+          <div className="absolute top-3 right-3 z-20 p-1">
             {credential.verificationStatus === 'verified' && (
               <div className={cn(
                 "flex items-center text-xs px-2 py-1 rounded-full",
@@ -143,36 +158,13 @@ export const VerifiableCredentialCard = React.forwardRef<HTMLDivElement, Verifia
           </div>
         )}
         
-        {/* Display selected credential subject properties */}
-        <div className="space-y-2 mt-2">
-          {displayProperties.map((prop) => {
-            if (!credential.credentialSubject[prop]) return null;
-            
-            return (
-              <div key={prop} className="flex justify-between text-sm">
-                <span className={cn(
-                  "font-medium",
-                  isDarkMode ? "text-gray-300" : "text-gray-600"
-                )}>{prop}:</span>
-                <span className={cn(
-                  isDarkMode ? "text-white" : "text-gray-900"
-                )}>
-                  {typeof credential.credentialSubject[prop] === 'object'
-                    ? JSON.stringify(credential.credentialSubject[prop])
-                    : credential.credentialSubject[prop].toString()}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-        
         {/* Credential ID (truncated) */}
         {credential.id && (
           <div className={cn(
-            "mt-3 pt-2 border-t text-xs truncate",
+            "px-4 py-2 mt-2 text-xs truncate",
             isDarkMode 
-              ? "border-gray-700 text-gray-400" 
-              : "border-gray-200 text-gray-500"
+              ? "text-gray-400" 
+              : "text-gray-500"
           )}>
             ID: {credential.id}
           </div>
